@@ -1,0 +1,36 @@
+---
+import { withBase } from '../lib/paths';
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import FAQ from '../components/FAQ.astro';
+import AppPreview from '../components/AppPreview.astro';
+import { products } from '../data/site';
+---
+<Layout>
+  <section class="hero container">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="status-dot"></span> TURTLE / 为文字与思考而作</div>
+      <h1>龙龟载文，<br /><span class="hero-emphasis">落笔成章<span class="hand-line" aria-hidden="true"></span></span><span class="title-period">。</span></h1>
+      <p class="hero-description">用龙龟笔记，承载灵感，让想法彼此相连。<br />用龙龟编辑器，落笔成文，把思路写成文章。</p>
+      <div class="hero-actions"><a class="button button-primary" href="#notes">探索龙龟笔记 <Icon name="arrow" size={16} /></a><a class="button button-outline" href="#editor">探索龙龟编辑器 <Icon name="arrow" size={16} /></a></div>
+      <p class="hero-meta">两款原生 macOS 应用 <span>·</span> 同一种 Markdown 写作体验</p>
+    </div>
+    <div class="hero-art" aria-hidden="true"><span class="hero-turtle"></span></div>
+    <div class="product-choice" id="download" aria-label="选择产品并下载">
+      {products.map(item => <article><img src={withBase(item.icon)} width="52" height="52" alt="" /><div><span class="eyebrow">{item.name}</span><h2>{item.chineseName}</h2><p>{item.slogan}。</p></div><a href={withBase(`/downloads/${item.id}/`)} aria-label={`${item.chineseName}下载页`} class="product-download"><Icon name="down" size={18} /><span>下载</span></a></article>)}
+    </div>
+  </section>
+  <section class="product-section container" id="notes">
+    <div class="product-heading"><div><p class="eyebrow">TURTLE NOTES / 龙龟笔记</p><h2>龙龟载思，<span>灵感相连。</span></h2></div><p>给每一条灵感一个位置，<br />让每一次积累都能被重新发现。</p></div>
+    <AppPreview product="notes" />
+    <div class="product-benefits"><article><Icon name="write" size={21} /><h3>随手记下，留住灵感</h3><p>从一句话到一篇长文，在本地笔记库里持续积累。</p></article><article><Icon name="tag" size={21} /><h3>层级标签，梳理思绪</h3><p>按主题组织内容，用关键词与待办搜索找回笔记。</p></article><article><Icon name="link" size={21} /><h3>双向链接，连接想法</h3><p>在笔记之间建立联系，沿着一个念头发现另一条思路。</p></article></div>
+  </section>
+  <section class="product-section editor-section container" id="editor">
+    <div class="product-heading"><div><p class="eyebrow">TURTLE MARKDOWN EDITOR / 龙龟编辑器</p><h2>龙龟载文，<span>落笔成章。</span></h2></div><p>直接打开一份 Markdown，<br />把注意力交给眼前这一篇。</p></div>
+    <AppPreview product="editor" />
+    <div class="product-benefits"><article><Icon name="file" size={21} /><h3>打开即写，保存即得</h3><p>直接编辑独立 Markdown 文件，支持保存、另存为与多文稿标签页。</p></article><article><Icon name="write" size={21} /><h3>从思路，到清晰的表达</h3><p>标题大纲帮助梳理结构，表格、公式与 Mermaid 承载更丰富的内容。</p></article><article><Icon name="down" size={21} /><h3>写成文章，自由带走</h3><p>保存 Markdown 源文件，或导出 PDF，把完成的文稿交给下一位读者。</p></article></div>
+  </section>
+  <section class="compare-section"><div class="container compare-inner"><div><p class="eyebrow">同源的编辑体验，各自的内容归属</p><h2>笔记载思，<br />文稿成章。</h2><p>你决定如何开始。<br />龙龟，为文字找到合适的容器。</p></div><div class="comparison"><table><caption class="sr-only">龙龟笔记与龙龟编辑器对比</caption><thead><tr><th scope="col">你的写作方式</th><th scope="col">龙龟笔记</th><th scope="col">龙龟编辑器</th></tr></thead><tbody><tr><th scope="row">内容归属</th><td>笔记库</td><td>独立 Markdown 文件</td></tr><tr><th scope="row">适合用来</th><td>积累、整理、连接</td><td>打开、写作、保存</td></tr><tr><th scope="row">Markdown / PDF 导出</th><td>支持</td><td>支持</td></tr><tr><th scope="row">离线编辑</th><td>支持</td><td>支持</td></tr><tr><th scope="row">内置 iCloud 同步</th><td>可用版本中按需开启</td><td>无内置同步</td></tr></tbody></table></div></div></section>
+  <section class="faq-section container section-space" id="faq"><div class="faq-intro"><p class="eyebrow">GOOD TO KNOW</p><h2>落笔之前，<br />你可能还想知道。</h2><p>关于两款 App、内容归属与开始使用。</p><a href={withBase('/support/')} class="text-link">更多帮助 <Icon name="arrow" size={17} /></a></div><FAQ /></section>
+  <section class="support-line container"><p>关于使用、反馈，或一个让龙龟更好的想法。</p><a href={withBase('/support/')} class="text-link">联系开发者 <Icon name="arrow" size={16} /></a></section>
+</Layout>

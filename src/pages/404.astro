@@ -1,0 +1,5 @@
+---
+import { withBase } from '../lib/paths';
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="页面未找到" noindex={true}><section class="not-found container"><p class="eyebrow">404 / A LITTLE DETOUR</p><h1>这条小路，暂时还没写下。</h1><p>页面可能已移动。回到首页，继续寻找你的下一条灵感。</p><a class="button button-primary" href={withBase('/')}>回到龙龟首页</a></section></Layout>

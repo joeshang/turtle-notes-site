@@ -1,0 +1,56 @@
+import assert from 'node:assert/strict';
+import { readFile, readdir, stat } from 'node:fs/promises';
+import { resolve, join } from 'node:path';
+
+const root = resolve('dist');
+const base = '/turtle-notes-site/';
+const pages = ['index.html', 'privacy/index.html', 'support/index.html', 'downloads/notes/index.html', 'downloads/editor/index.html', '404.html'];
+let checked = 0;
+async function checkRef(ref, current) {
+  ref = ref.replaceAll('&amp;', '&');
+  if (/^(?:https?:|mailto:|data:)/.test(ref)) return;
+  assert(ref.startsWith(base) || ref.startsWith('#'), `Reference escapes the Pages base: ${ref}`);
+  const url = new URL(ref, `https://joeshang.github.io${base}${current}`);
+  let target = resolve(root, decodeURIComponent(url.pathname.slice(base.length)));
+  if ((await stat(target)).isDirectory()) target = join(target, 'index.html');
+  if (url.hash) {
+    const linked = await readFile(target, 'utf8');
+    assert(linked.includes(`id="${url.hash.slice(1)}"`), `${current}: missing anchor ${ref}`);
+  }
+  checked++;
+}
+for (const page of pages) {
+  const html = await readFile(join(root, page), 'utf8');
+  assert.match(html, /<html lang="zh-CN"/);
+  assert.match(html, /<title>[^<]+<\/title>/);
+  assert.match(html, /name="description"/);
+  assert.match(html, /shangchuanren@gmail\.com|联系与支持/);
+  assert.doesNotMatch(html, /github\.com\/joeshang\/turtle-notes(?:["/])/, 'Private App repository must not be a public download destination');
+  for (const match of html.matchAll(/(?:href|src)="([^"\s]+)"/g)) await checkRef(match[1], page);
+}
+async function inspect(dir) {
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) await inspect(path);
+    else {
+      assert(!/\.(?:m|h|sh|env|sqlite|map|mobileprovision|p12|dmg)$/.test(entry.name), `Internal or installer file in Pages artifact: ${path}`);
+      if (entry.name.endsWith('.css')) {
+        const css = await readFile(path, 'utf8');
+        for (const match of css.matchAll(/url\(["']?([^"')]+)["']?\)/g)) await checkRef(match[1], 'index.html');
+      }
+    }
+  }
+}
+await inspect(root);
+const home = await readFile(join(root, 'index.html'), 'utf8');
+assert.match(home, /龙龟载文，/);
+assert.match(home, /落笔成章/);
+for (const id of ['notes', 'editor']) {
+  assert.match(home, new RegExp(`${base}downloads/${id}/`));
+  for (const suffix of ['', '-dark']) await stat(join(root, `images/${id}-app${suffix}.png`));
+}
+const sitemap = await readFile(join(root, 'sitemap.xml'), 'utf8');
+assert.match(sitemap, /https:\/\/joeshang.github.io\/turtle-notes-site\/privacy\//);
+const robots = await readFile(join(root, 'robots.txt'), 'utf8');
+assert.match(robots, /Sitemap: https:\/\/joeshang.github.io\/turtle-notes-site\/sitemap.xml/);
+console.log(`Verified ${pages.length} project Pages routes and ${checked} links/assets, including CSS and day/night screenshots.`);
