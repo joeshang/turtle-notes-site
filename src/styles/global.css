@@ -50,17 +50,16 @@
   .nav-cta { display: inline-flex; align-items: center; gap: 14px; padding: 8px 16px; border: 1px solid var(--border-strong); border-radius: 5px; font-size: 12px; }
   .nav-cta:hover { background: var(--surface-hover); }
   .hero { position: relative; padding-top: 72px; }
+  .hero-lead { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 40px; }
   .hero-copy { position: relative; z-index: 1; }
-  .hero .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--subtle); font-size: 11px; letter-spacing: .12em; }
+  .hero .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--subtle); font-size: 11px; letter-spacing: .03em; }
   .hero h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(44px, 5.5vw, 70px); letter-spacing: .04em; line-height: 1.35; margin-top: 23px; }
   .hero-emphasis { position: relative; }
   .hand-line { display: block; position: absolute; height: 10px; border-top: 2px solid var(--soft-accent); border-radius: 50%; width: 98%; bottom: -9px; left: -2px; transform: rotate(-2deg); }
   .title-period { color: var(--soft-accent); }
   .hero-description { font-size: 15px; color: var(--muted); line-height: 1.95; margin-top: 28px; }
-  .hero-actions { display: flex; align-items: center; gap: 28px; margin-top: 26px; }
-  .hero-meta { font-size: 10px; color: var(--subtle); margin-top: 15px; letter-spacing: .03em; }
-  .hero-meta span { margin: 0 8px; }
-  .hero-art { position: absolute; top: 35px; right: 10px; width: 440px; height: 440px; pointer-events: none; }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-top: 26px; }
+  .hero-art { width: 100%; max-width: 460px; aspect-ratio: 1; justify-self: center; pointer-events: none; }
   .hero-turtle { display: block; width: 100%; height: 100%; background: var(--art); opacity: .65; -webkit-mask: url('../../public/images/dragon-turtle-inspiration.png') center / contain no-repeat; mask: url('../../public/images/dragon-turtle-inspiration.png') center / contain no-repeat; }
   .app-showcase { margin-top: 28px; padding: 23px 36px 15px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; scroll-margin-top: 30px; }
   .showcase-label { display: flex; align-items: center; justify-content: space-between; font-size: 9px; color: var(--muted); letter-spacing: .13em; margin-bottom: 18px; }
@@ -161,7 +160,7 @@
 @layer responsive {
   @media (max-width: 950px) {
     .container { width: calc(100% - 56px); }
-    .hero-art { right: 0; width: 330px; height: 330px; top: 70px; }
+    .hero-lead { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; }
     .section-space { padding-block: 75px; }
     .faq-section { gap: 35px; grid-template-columns: .9fr 1.3fr; }
     .faq-intro h2 { font-size: 27px; }
@@ -186,13 +185,12 @@
     .header-inner nav a:last-child { display: none; }
     .nav-cta { display: none; }
     .hero { padding-top: 44px; }
+    .hero-lead { grid-template-columns: minmax(0, 1fr); gap: 0; }
     .hero h1 { font-size: 45px; margin-top: 21px; }
     .hero .eyebrow { font-size: 9px; letter-spacing: .05em; }
     .hero-description { font-size: 12px; margin-top: 25px; line-height: 2; }
     .hero-actions { gap: 10px; margin-top: 23px; flex-wrap: wrap; }
     .hero-actions .button { min-height: 44px; padding: 10px 15px; font-size: 11px; gap: 6px; }
-    .hero-meta { font-size: 8px; }
-    .hero-meta span { margin: 0 5px; }
     .hero-art { display: none; }
     .product-choice { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
     .product-choice article { padding: 18px 20px; }

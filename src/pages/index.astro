@@ -8,14 +8,15 @@ import { products } from '../data/site';
 ---
 <Layout>
   <section class="hero container">
-    <div class="hero-copy">
-      <div class="eyebrow"><span class="status-dot"></span> 原生 Markdown / 为文字与思考而作</div>
-      <h1>龙龟载文，<br /><span class="hero-emphasis">落笔成章<span class="hand-line" aria-hidden="true"></span></span><span class="title-period">。</span></h1>
-      <p class="hero-description">用龙龟笔记，承载灵感，让想法彼此相连。<br />用龙龟编辑器，落笔成文，把思路写成文章。</p>
-      <div class="hero-actions"><a class="button button-primary" href="#notes">探索龙龟笔记 <Icon name="arrow" size={16} /></a><a class="button button-outline" href="#editor">探索龙龟编辑器 <Icon name="arrow" size={16} /></a></div>
-      <p class="hero-meta">原生 Markdown 渲染，轻快跟手，让写作流畅自然。 <span>·</span> macOS / iOS</p>
+    <div class="hero-lead">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span><span>Apple 平台原生 Markdown 渲染，轻快跟手，让写作流畅自然。</span></p>
+        <h1>龙龟载文，<br /><span class="hero-emphasis">落笔成章<span class="hand-line" aria-hidden="true"></span></span><span class="title-period">。</span></h1>
+        <p class="hero-description">用龙龟笔记，承载灵感，让想法彼此相连。<br />用龙龟编辑器，落笔成文，把思路写成文章。</p>
+        <div class="hero-actions"><a class="button button-primary" href="#notes">探索龙龟笔记 <Icon name="arrow" size={16} /></a><a class="button button-outline" href="#editor">探索龙龟编辑器 <Icon name="arrow" size={16} /></a></div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><span class="hero-turtle"></span></div>
     </div>
-    <div class="hero-art" aria-hidden="true"><span class="hero-turtle"></span></div>
     <div class="product-choice" id="download" aria-label="选择产品并下载">
       {products.map(item => <article>
         <img src={withBase(item.icon)} width="52" height="52" alt="" />
