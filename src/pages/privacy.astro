@@ -1,0 +1,65 @@
+---
+import { withBase } from '../lib/paths';
+import Layout from '../layouts/Layout.astro';
+import { brand } from '../data/site';
+const sections = [
+  ['scope', '适用范围与联系'], ['information', '信息与用途'], ['choices', '你的选择与权限'],
+  ['services', '第三方与跨境处理'], ['retention', '保存与删除'], ['rights', '个人信息权利'],
+  ['security', '安全保护'], ['children', '未成年人'], ['updates', '政策更新'],
+];
+---
+<Layout title="隐私政策" description="龙龟笔记与龙龟编辑器隐私政策预览稿：信息用途、本地存储、可选 iCloud 同步、第三方、保存与删除以及个人信息权利。">
+  <header class="document-hero container"><p class="eyebrow">PRIVACY / 让文字有归处，也让信息有边界</p><h1>隐私政策</h1><p>适用于龙龟笔记、龙龟编辑器及本官网。最近更新：{brand.policyUpdated}。</p></header>
+  <article class="document-content privacy-content container">
+    <div class="document-notice"><p><strong>本地预览稿 · 尚未正式生效</strong><br />本产品拟由个人开发者面向中国大陆发行。本稿依据当前功能编写；正式署名、生效日期、网站与下载服务、第三方处理地点和跨境安排仍待确认，不能直接作为已完成合规核验的发行政策。</p></div>
+    <section class="privacy-summary" aria-labelledby="privacy-summary"><p class="eyebrow">先了解这几件事</p><h2 id="privacy-summary">内容如何保存，由使用场景决定。</h2><ul><li><strong>本地写作：</strong>Notes 使用设备上的笔记库；Editor 使用你选择的 Markdown 文件。</li><li><strong>可选同步：</strong>具备相应权限的 Notes 版本可使用 Apple CloudKit；Editor 没有内置 CloudKit 同步。</li><li><strong>联系支持：</strong>发送邮件会向开发者及邮件服务提供商提供你主动发送的信息。</li><li><strong>删除有边界：</strong>废纸篓、同步删除标记、其他设备副本与系统备份有不同的保留方式。</li></ul></section>
+    <nav class="privacy-toc" aria-label="隐私政策目录">{sections.map(([id, label], index) => <a href={`#${id}`}>{index + 1}. {label}</a>)}</nav>
+
+    <h2 id="scope">1. 适用范围与联系</h2>
+    <p>本政策说明 Turtle Notes（龙龟笔记）、Turtle Markdown Editor（龙龟编辑器）及本官网在当前功能下的信息处理方式。两款产品拟由{brand.operatorType}提供，主要面向{brand.distributionRegion}；正式发行时将补充个人信息处理者的真实姓名。隐私咨询与权利请求邮箱为 <a href={`mailto:${brand.supportEmail}`}>{brand.supportEmail}</a>。</p>
+    <p>文中“我们”指产品开发者，“你”指使用产品或联系支持的个人。本政策说明事实与选择，不因你浏览本页就视为你已同意所有处理活动；需要同意、单独同意或其他法定程序的场景，我们将在相应功能启用或信息提供前另行办理。</p>
+
+    <h2 id="information">2. 我们处理哪些信息，用来做什么</h2>
+    <div class="privacy-scenarios">
+      <section class="privacy-scenario"><h3>设备上的笔记、文稿与附件</h3><p><strong>信息：</strong>正文、标题、标签、笔记关系、附件、创建与修改时间，以及保存和恢复所需的版本信息。</p><p><strong>用途与位置：</strong>实现编辑、搜索、组织、恢复和导出。Notes 保存在本地数据库及附件目录；Editor 读取和保存你选择的文件。当前产品没有用于接收这些本地内容的开发者自建内容服务器。</p></section>
+      <section class="privacy-scenario"><h3>应用偏好与本地诊断</h3><p><strong>信息：</strong>主题、字体、窗口与界面偏好；运行或同步时可能产生的状态、时间、错误类型等技术诊断信息。</p><p><strong>用途与位置：</strong>恢复使用习惯、维护本地运行及排查问题，保存在设备或系统日志中。当前应用代码未接入广告、行为分析或第三方崩溃上报服务；系统诊断共享由设备设置另行控制。</p></section>
+      <section class="privacy-scenario"><h3>你选择开启的 iCloud 同步</h3><p><strong>信息：</strong>笔记正文、标签、状态、附件、笔记标识、版本和删除状态等同步信息。</p><p><strong>用途与位置：</strong>仅在具备权限并开启同步的 Notes 版本中，通过 Apple CloudKit 私有数据库同步。开发者不向你索取 Apple 账户密码。macOS 与 iOS 是否可用取决于所安装版本的权限和配置；未启用云端的本地版本和 Editor 不使用该内置同步。</p></section>
+      <section class="privacy-scenario"><h3>你主动提供的支持信息</h3><p><strong>信息：</strong>发件邮箱、邮件内容，以及你主动附上的截图、示例文稿、App / 系统版本和诊断信息。</p><p><strong>用途与位置：</strong>回复咨询、复现故障和跟进你的请求，存于开发者支持邮箱及为处理该请求所需的工作记录。请尽量使用虚构示例并遮去个人信息，无需发送完整私人笔记库。</p></section>
+    </div>
+    <h3>官网访问与下载</h3><p>官网公开版本拟使用 GitHub Pages 托管，安装包通过 GitHub Releases 提供；目前仍为预览稿。GitHub 在传输网页和下载文件、维护安全及排查故障时可能处理 IP 地址、请求时间、请求路径与浏览器等技术信息，详情见其<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">隐私声明</a>。最终配置和保留安排需在公开上线前核实。官网没有账户、支付、广告或访客分析。日夜切换和截图比较所用脚本在浏览器中运行；网站会使用本地存储记住你的外观选择，不将该偏好发送给开发者，不用于跨站追踪。</p>
+    <p>目前不以笔记内容或支持邮件开展广告画像，也不通过本产品作出对你有重大影响的自动化决策。未来处理目的、方式或信息范围发生变化时，我们会先重新评估并履行相应告知和同意等程序。</p>
+
+    <h2 id="choices">3. 你的选择与系统权限</h2>
+    <ul><li><strong>离线编辑：</strong>当前不需要注册龙龟账号。不启用可选云端同步、也不发送支持邮件，仍可使用本地编辑功能。</li><li><strong>同步开关：</strong>可用版本中的 iCloud 同步由你在设置中选择。关闭后停止后续同步，已有本地、云端及其他设备副本不会因此自动删除。</li><li><strong>文件与照片：</strong>打开文稿、插入附件或导出时，App 处理你通过相应功能选择的内容。iOS 照片附件使用系统选择器；你可以在系统允许的范围内管理或撤回相关权限，受影响的是对应功能。</li><li><strong>支持邮件：</strong>是否联系支持及提供哪些示例由你选择。缺少必要的故障信息可能影响问题定位，不影响本地写作。</li></ul>
+    <p>选择某个功能不等于同意无关用途。若某项个人信息处理依法基于同意，你可以通过对应功能的开关或联系支持撤回，且不影响撤回前已依法进行的处理。对支持信息的撤回或删除请求，可使用上述邮箱提出。</p>
+
+    <h2 id="services">4. 第三方服务、提供信息与跨境处理</h2>
+    <p><strong>Apple：</strong>开启可用的 iCloud 同步时，Apple 提供 CloudKit 服务。若你自行将 Editor 文稿或导出文件放入 iCloud Drive、其他同步目录或备份服务，对应服务也会按你的设置处理文件。Apple 的相关处理说明见其<a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer">隐私政策</a>。</p>
+    <p><strong>Google Gmail：</strong>当前支持邮箱使用 Gmail。你发送的邮件及附件会经邮件系统处理，并由开发者用于支持请求；Google 对其服务的说明见其<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">隐私政策</a>。这不是向开发者提供不必要的私人内容的要求。</p>
+    <p><strong>本地组件：</strong>两款 App 使用随安装包提供的 TurtleSDK 处理编辑、渲染与导出。本地组件与上面列出的云端、邮件服务用途不同；当前未通过产品代码接入广告、行为分析或第三方崩溃上报。</p>
+    <p>我们不出售你的个人信息，也不将其提供给广告商。为响应请求或提供你选择的功能而涉及第三方时，我们将限制在必要信息范围内，并根据实际关系落实相应保护义务；第三方政策链接不替代我们的责任。依法需要提供信息时，我们会在适用要求和必要范围内处理。</p>
+    <div class="document-notice"><p><strong>跨境事项尚待发行前核实：</strong>Apple、Gmail 和 GitHub 可能涉及中国大陆以外的服务环节，当前不能承诺信息全部在中国大陆存储。实际接收方、联系方式、处理地点、用途、信息种类、权利行使渠道及适用的跨境程序，需结合最终版本和服务安排确认；如依法需要单独同意或其他手续，应在相关处理前完成，不能仅以用户开启同步或发送邮件代替。</p></div>
+
+    <h2 id="retention">5. 保存期限、删除与备份</h2>
+    <p>信息的保留应限于实现相应目的所需的最短时间，或适用法律要求的期限。不同位置的副本需要分别管理：</p>
+    <ul><li><strong>Notes 笔记：</strong>由你在笔记库中管理。移到废纸篓后仍保留内容，可恢复；永久删除会移除正常笔记记录并清理相关附件。异常中断时，附件清理可能需要在再次打开后完成。</li><li><strong>同步删除标记：</strong>为阻止旧设备重新上传已删除内容，本地和已启用的 CloudKit 同步会保留笔记标识及删除状态。当前实现没有自动到期机制；这类标记与笔记正文、附件不同，不应将“永久删除”理解为所有相关记录立即消失。</li><li><strong>Editor 文稿与导出：</strong>保留在你选择的文件位置；请通过文件管理功能处理。文稿及附件副本、系统废纸篓和备份需要分别删除，关闭窗口或卸载 App 不等于删除文件。</li><li><strong>恢复与诊断：</strong>应用为保存、同步或故障恢复可能保留工作副本、同步状态、冲突副本和本地日志。同步或清理未完成时可能仍有残留；当前不承诺安全擦除存储介质上的全部痕迹。</li><li><strong>支持信息：</strong>按请求是否解决、是否仍需复现或跟进、是否有必要保留争议记录及适用的法定义务判断保留期限，不无限期保留无关内容。当请求已结束且没有继续处理的必要时，我们将删除或去标识化相应信息；法律要求保留的部分限于相应目的和期限。</li><li><strong>其他副本：</strong>离线设备、iCloud、文件同步服务和系统备份可能各有副本。关闭同步或卸载 App 不自动清除它们；需要按对应服务的功能分别操作。</li></ul>
+    <p>删除云端内容前，可先确认重要内容已备份；需要跨设备删除时，应确认相关设备联网并完成同步。若你希望清除整个库及同步状态，请先联系支持确认当前版本可用的操作，避免误删和旧设备重新同步。</p>
+
+    <h2 id="rights">6. 如何行使个人信息权利</h2>
+    <p>在适用法律规定的条件和范围内，你可以了解处理情况、查阅或复制个人信息、要求更正或补充、请求删除、限制或拒绝相应处理，并在依法适用时撤回同意或请求转移信息。不同请求可能需要满足相应条件。</p>
+    <p>本地笔记与文稿可通过 App 编辑、导出或删除。开发者没有用于代你浏览本地笔记或登录你 Apple 账户的后台工具；对于支持邮件等我们持有的信息，可发送邮件至 <a href={`mailto:${brand.supportEmail}`}>{brand.supportEmail}</a>，主题注明“个人信息请求”，说明涉及的信息和希望执行的操作。</p>
+    <p>处理请求时，只核验与请求相称、确有必要的信息；请勿预先发送身份证件、密码或完整笔记库。我们将在适用法律要求的期限内答复；无法满足或需要保留部分信息时，会说明原因及可用的救济途径。你也可以向有管辖权的履行个人信息保护职责的部门投诉、举报，或依法寻求其他救济。</p>
+
+    <h2 id="security">7. 信息安全与敏感内容</h2>
+    <p>当前本地笔记库与普通 Markdown 文件不提供 App 级加密，Notes 不支持导入或编辑加密笔记；不能将本地存储、CloudKit 私有数据库或 HTTPS 等同于“绝对安全”或开发者实现的端到端加密。</p>
+    <p>请结合设备登录保护、系统磁盘加密与独立备份保护内容。支持信息仅应用于对应请求，处理时减少不必要的复制与访问。发生依法需要通知的个人信息安全事件时，我们将采取补救措施并按适用要求履行告知和报告义务。</p>
+    <p>笔记可能包含你自行输入的敏感信息。请谨慎选择是否将其同步、分享或作为支持附件发送；我们不要求你为使用普通写作功能提供身份证件、金融账户或健康等敏感信息。</p>
+
+    <h2 id="children">8. 未成年人信息</h2>
+    <p>当前产品没有专门面向未满十四周岁未成年人的信息收集流程。未成年人应在监护人指导下使用，并避免向支持邮箱发送不必要的个人信息。若发现收到此类未成年人的个人信息，我们将核实情况并根据适用法律采取限制处理、删除或其他措施；如实际提供相应服务，会事先落实监护人同意及专门规则。</p>
+
+    <h2 id="updates">9. 政策更新</h2>
+    <p>正式发行时，本页将列明真实处理者和生效日期。功能、数据用途、接收方、保存期限或权利渠道发生实质变化时，我们将在相关处理前以与影响相适应的方式告知，并在依法需要时重新征得同意。不会仅以继续使用或访问本页推定你接受新增处理。</p>
+    <p><a href={withBase('/support/')}>联系与支持 →</a></p>
+  </article>
+</Layout>

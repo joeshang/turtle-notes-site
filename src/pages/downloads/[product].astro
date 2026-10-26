@@ -1,0 +1,23 @@
+---
+import { withBase } from '../../lib/paths';
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { products, brand } from '../../data/site';
+import type { Product } from '../../data/site';
+export function getStaticPaths() {
+  return products.map(product => ({ params: { product: product.id }, props: { product } }));
+}
+interface Props { product: Product; }
+const { product } = Astro.props;
+const { release } = product;
+---
+<Layout title={`${product.chineseName}下载`} description={`${product.slogan}。${product.chineseName}的 macOS 版本下载、系统要求与发行状态。`}>
+  <header class="document-hero container"><p class="eyebrow">{product.name} / DOWNLOAD</p><div class="download-page-title"><img src={withBase(product.icon)} width="64" height="64" alt="" /><h1>{product.chineseName}下载</h1></div><p>{product.slogan}。{product.description}</p></header>
+  <article class="document-content container">
+    {release ? <div class="contact-panel"><p class="eyebrow">正式发行版本</p><h2>v{release.version}</h2><p>macOS {release.minimumMacOS} 或更新版本 · {release.architecture}</p><a class="button button-primary download-action" href={release.downloadURL}><Icon name="down" size={19} />下载 {product.chineseName}</a><p><a href={release.checksumURL}>下载 SHA-256 校验文件</a></p></div> : <div class="contact-panel"><p class="eyebrow">公开下载准备中</p><h2>正式安装包尚未开放</h2><p>本页是{product.chineseName}的独立下载入口。当前为官网本地预览，安装包、发行版本、处理器架构和校验文件将在正式发行并验证后提供。</p><p>当前代码要求 macOS {product.minimumMacOS} 或更新版本。</p></div>}
+    <h2>{product.id === 'notes' ? '为持续积累的想法而作' : '为眼前这一篇文稿而作'}</h2><p>{product.id === 'notes' ? '使用本地笔记库保存内容，通过层级标签、搜索和双向链接整理笔记。具备云端权限的 macOS 版本还可选择开启 iCloud 同步。' : '直接打开与保存独立 Markdown 文件，支持渲染与源码视图、标题大纲、表格、公式、Mermaid 及 Markdown / PDF 导出。它不依赖 Notes 笔记库。'}</p>
+    <p><a href={withBase(`/#${product.id}`)}>查看{product.chineseName}介绍与真实截图 →</a></p>
+    <h2>你可能也需要</h2>{products.filter(item => item.id !== product.id).map(item => <p><a href={withBase(`/downloads/${item.id}/`)}>{item.chineseName}下载 →</a><br />{item.description}</p>)}
+    <h2>下载与使用问题</h2><p>请联系 <a href={`mailto:${brand.supportEmail}`}>{brand.supportEmail}</a>，或前往<a href={withBase('/support/')}>支持页面</a>。数据处理方式请参阅<a href={withBase('/privacy/')}>隐私政策</a>。</p>
+  </article>
+</Layout>
