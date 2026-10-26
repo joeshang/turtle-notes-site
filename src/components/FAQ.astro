@@ -1,0 +1,6 @@
+---
+import { faqs } from '../data/site';
+---
+<div class="faq-list">
+  {faqs.map(({question, answer}) => <details><summary>{question}<span class="faq-plus" aria-hidden="true">+</span></summary><p>{answer}</p></details>)}
+</div>
