@@ -10,6 +10,8 @@
   function apply(theme: 'light' | 'dark') {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
+    const pageColor = getComputedStyle(document.documentElement).getPropertyValue('--paper').trim();
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', pageColor);
     const label = theme === 'dark' ? '切换为日间模式' : '切换为夜间模式';
     button?.setAttribute('aria-label', label);
     button?.setAttribute('title', label);
