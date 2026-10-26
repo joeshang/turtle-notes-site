@@ -54,8 +54,16 @@ await inspect(root);
 const home = await readFile(join(root, 'index.html'), 'utf8');
 assert.match(home, /龙龟载文，/);
 assert.match(home, /落笔成章/);
+const releases = JSON.parse(await readFile('src/data/releases.json', 'utf8'));
 for (const id of ['notes', 'editor']) {
   assert.match(home, new RegExp(`${base}downloads/${id}/`));
+  if (releases[id]) {
+    const href = `href="${releases[id].downloadURL}"`;
+    assert(home.split(href).length - 1 >= 2, `${id}: product card and screenshot caption must directly download the installer`);
+    const downloadPage = await readFile(join(root, `downloads/${id}/index.html`), 'utf8');
+    assert(downloadPage.includes(href), `${id}: download details must offer the same installer`);
+    assert(downloadPage.includes(`href="${releases[id].checksumURL}"`), `${id}: missing checksum download`);
+  }
   for (const suffix of ['', '-dark']) await stat(join(root, `images/${id}-app${suffix}.png`));
 }
 const sitemap = await readFile(join(root, 'sitemap.xml'), 'utf8');

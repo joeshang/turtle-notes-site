@@ -58,6 +58,11 @@ export const iosDownloadLinks = [
   { label: '通过 TestFlight 体验', url: notesIOS.testFlightURL },
 ].filter((link): link is { label: string; url: string } => link.url !== null);
 
+const macOSAvailability = products.map(product => product.release
+  ? `${product.chineseName} macOS v${product.release.version} 已发布，适用于 ${product.release.architecture} Mac（macOS ${product.release.minimumMacOS} 或更新版本）`
+  : `${product.chineseName} macOS 版公开下载准备中`
+).join('；');
+
 export const faqs = [
   {
     question: '为什么叫「龙龟」？',
@@ -81,7 +86,7 @@ export const faqs = [
   },
   {
     question: '支持哪些设备？现在可以下载吗？',
-    answer: '龙龟笔记支持 Mac、iPhone 与 iPad，龙龟编辑器面向 Mac。当前 Mac 版本要求 macOS 14.0 或更新版本，iOS 版要求 iOS 18.0 或更新版本。公开下载仍在准备中；笔记下载页分别提供 macOS 与 iOS 入口，正式开放后会列明对应的安装包或 App Store / TestFlight 地址。',
+    answer: `${macOSAvailability}。点击首页的 macOS 下载按钮即可直接下载安装包。龙龟笔记另有 iPhone 与 iPad 版本，需要 iOS ${notesIOS.minimumIOS} 或更新版本；${iosDownloadLinks.length ? '正式下载入口见笔记下载页。' : 'iOS 版公开下载仍在准备中。'}`,
   },
   {
     question: '需要注册龙龟账号吗？',
