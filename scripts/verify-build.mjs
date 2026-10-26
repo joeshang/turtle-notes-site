@@ -4,7 +4,7 @@ import { resolve, join } from 'node:path';
 
 const root = resolve('dist');
 const base = '/turtle-notes-site/';
-const pages = ['index.html', 'privacy/index.html', 'support/index.html', 'downloads/notes/index.html', 'downloads/editor/index.html', '404.html'];
+const pages = ['index.html', 'privacy/index.html', 'support/index.html', 'downloads/index.html', '404.html'];
 let checked = 0;
 async function checkRef(ref, current) {
   ref = ref.replaceAll('&amp;', '&');
@@ -56,11 +56,11 @@ assert.match(home, /龙龟载文，/);
 assert.match(home, /落笔成章/);
 const releases = JSON.parse(await readFile('src/data/releases.json', 'utf8'));
 for (const id of ['notes', 'editor']) {
-  assert.match(home, new RegExp(`${base}downloads/${id}/`));
+  assert(home.includes(`href="${base}downloads/#${id}"`), `${id}: homepage must navigate to its section on the shared download page`);
   if (releases[id]) {
     const href = `href="${releases[id].downloadURL}"`;
-    assert(home.split(href).length - 1 >= 2, `${id}: product card and screenshot caption must directly download the installer`);
-    const downloadPage = await readFile(join(root, `downloads/${id}/index.html`), 'utf8');
+    assert(!home.includes(href), `${id}: installer links belong on the download page`);
+    const downloadPage = await readFile(join(root, 'downloads/index.html'), 'utf8');
     assert(downloadPage.includes(href), `${id}: download details must offer the same installer`);
     assert(downloadPage.includes(`href="${releases[id].checksumURL}"`), `${id}: missing checksum download`);
   }

@@ -6,36 +6,43 @@ import FAQ from '../components/FAQ.astro';
 import AppPreview from '../components/AppPreview.astro';
 import { products } from '../data/site';
 ---
-<Layout>
+<Layout title="龙龟，自在书写">
   <section class="hero container">
     <div class="hero-lead">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span><span>Apple 平台原生 Markdown 渲染，轻快跟手，让写作流畅自然。</span></p>
-        <h1>龙龟载文，<br /><span class="hero-emphasis">落笔成章<span class="hand-line" aria-hidden="true"></span></span><span class="title-period">。</span></h1>
-        <p class="hero-description">用龙龟笔记，承载灵感，让想法彼此相连。<br />用龙龟编辑器，落笔成文，把思路写成文章。</p>
+        <h1>
+          <span class="hero-slogan">龙龟<span class="title-period">，</span></span>
+          <span class="hero-slogan"><span class="hero-emphasis">自在书写<span class="hand-line" aria-hidden="true"></span></span><span class="title-period">。</span></span>
+        </h1>
         <div class="hero-actions"><a class="button button-primary" href="#notes">探索龙龟笔记 <Icon name="arrow" size={16} /></a><a class="button button-outline" href="#editor">探索龙龟编辑器 <Icon name="arrow" size={16} /></a></div>
+        <p class="hero-meta">Apple 平台原生 Markdown 渲染，轻快跟手，让写作流畅自然。</p>
       </div>
       <div class="hero-art" aria-hidden="true"><span class="hero-turtle"></span></div>
     </div>
     <div class="product-choice" id="download" aria-label="选择产品并下载">
       {products.map(item => <article>
         <img src={withBase(item.icon)} width="52" height="52" alt="" />
-        <div><span class="eyebrow">{item.name}</span><h2>{item.chineseName}</h2><p>{item.slogan}。</p></div>
+        <div class="product-card-copy"><h2>{item.chineseName}</h2><p>{item.description}</p></div>
         <div class="product-platforms">
-          <a href={item.release?.downloadURL ?? withBase(`/downloads/${item.id}/#macos`)} aria-label={`${item.release ? '直接下载' : '查看'}${item.chineseName} macOS ${item.release ? `v${item.release.version}（${item.release.architecture}）` : '下载信息'}`} class="platform-link">{item.release ? '下载 macOS 版' : 'macOS'} <Icon name={item.release ? 'down' : 'arrow'} size={13} /></a>
-          {item.id === 'notes' && <a href={withBase('/downloads/notes/#ios')} aria-label="龙龟笔记 iOS 下载" class="platform-link">iOS <Icon name="arrow" size={13} /></a>}
+          <a href={withBase(`/downloads/#${item.id}`)} aria-label={`前往${item.chineseName} macOS 下载页`} class="platform-link">下载 macOS 版 <Icon name="arrow" size={13} /></a>
+          {item.id === 'notes' && <a href={withBase('/downloads/#ios')} aria-label="龙龟笔记 iOS 下载" class="platform-link">iOS <Icon name="arrow" size={13} /></a>}
         </div>
-        {item.release && <p class="product-release-info"><span>v{item.release.version} · {item.release.architecture} · macOS {item.release.minimumMacOS}+</span><a href={withBase(`/downloads/${item.id}/#macos`)}>安装说明与校验</a></p>}
       </article>)}
     </div>
   </section>
   <section class="product-section container" id="notes">
-    <div class="product-heading"><div><p class="eyebrow">TURTLE NOTES / 龙龟笔记</p><h2>龙龟载思，<span>灵感相连。</span></h2></div><p>给每一条灵感一个位置，<br />让每一次积累都能被重新发现。</p></div>
+    <div class="product-heading">
+      <h2>龙龟载思，<span>灵感相连。</span></h2>
+      <p class="product-description">龙龟笔记 · {products.find(product => product.id === 'notes')?.description}</p>
+    </div>
     <AppPreview product="notes" />
-    <div class="product-benefits"><article><Icon name="write" size={21} /><h3>随手记下，留住灵感</h3><p>从一句话到一篇长文，在本地笔记库里持续积累。</p></article><article><Icon name="tag" size={21} /><h3>层级标签，梳理思绪</h3><p>按主题组织内容，用关键词与待办搜索找回笔记。</p></article><article><Icon name="link" size={21} /><h3>双向链接，连接想法</h3><p>在笔记之间建立联系，沿着一个念头发现另一条思路。</p></article></div>
+    <div class="product-benefits notes-benefits"><article><Icon name="write" size={21} /><h3>随手记下，留住灵感</h3><p>从一句话到一篇长文，在本地笔记库里持续积累。</p></article><article><Icon name="tag" size={21} /><h3>层级标签，梳理思绪</h3><p>按主题组织内容，用关键词与待办搜索找回笔记。</p></article><article><Icon name="link" size={21} /><h3>双向链接，连接想法</h3><p>在笔记之间建立联系，沿着一个念头发现另一条思路。</p></article><article><Icon name="cloud" size={21} /><h3>iCloud 同步，多端接续</h3><p>开启 iCloud 同步，在 Mac、iPhone 与 iPad 之间接续记录与编辑。</p></article></div>
   </section>
   <section class="product-section editor-section container" id="editor">
-    <div class="product-heading"><div><p class="eyebrow">TURTLE MARKDOWN EDITOR / 龙龟编辑器</p><h2>龙龟载文，<span>落笔成章。</span></h2></div><p>直接打开一份 Markdown，<br />把注意力交给眼前这一篇。</p></div>
+    <div class="product-heading">
+      <h2>龙龟载文，<span>落笔成章。</span></h2>
+      <p class="product-description">龙龟编辑器 · {products.find(product => product.id === 'editor')?.description}</p>
+    </div>
     <AppPreview product="editor" />
     <div class="product-benefits"><article><Icon name="file" size={21} /><h3>打开即写，保存即得</h3><p>直接编辑独立 Markdown 文件，支持保存、另存为与多文稿标签页。</p></article><article><Icon name="write" size={21} /><h3>从思路，到清晰的表达</h3><p>标题大纲帮助梳理结构，表格、公式与 Mermaid 承载更丰富的内容。</p></article><article><Icon name="down" size={21} /><h3>写成文章，自由带走</h3><p>保存 Markdown 源文件，或导出 PDF，把完成的文稿交给下一位读者。</p></article></div>
   </section>

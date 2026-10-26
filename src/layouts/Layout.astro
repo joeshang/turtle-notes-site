@@ -53,17 +53,15 @@ const path = Astro.url.pathname;
           <a href={withBase('/support/')} aria-current={path === withBase('/support/') ? 'page' : undefined}>支持</a>
         </nav>
         <ThemeToggle />
-        <a class="nav-cta" href={withBase('/#download')}>获取应用 <Icon name="arrow" size={15} /></a>
+        <a class="nav-cta" href={withBase('/downloads/')}>获取应用 <Icon name="arrow" size={15} /></a>
       </div>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer container">
-      <div class="footer-top">
-        <a href={withBase('/')} class="brand"><img src={withBase('/images/app-icon.png')} width="36" height="36" alt="" /><span>龙龟</span></a>
-        <p>龙龟载文，落笔成章。</p>
+      <div class="footer-inner">
+        <span class="footer-copyright">© {new Date().getFullYear()} 龙龟</span>
         <nav aria-label="页脚导航"><a href={withBase('/support/')}>联系与支持</a><a href={withBase('/privacy/')}>隐私政策</a></nav>
       </div>
-      <div class="footer-bottom"><span>© {new Date().getFullYear()} 龙龟</span></div>
     </footer>
   </body>
 </html>

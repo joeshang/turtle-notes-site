@@ -1,21 +1,18 @@
 ---
 import { withBase } from '../lib/paths';
-import { products } from '../data/site';
 interface Props { product: 'notes' | 'editor'; }
 const { product } = Astro.props;
 const notes = product === 'notes';
-const release = products.find(item => item.id === product)?.release;
 const name = notes ? '龙龟笔记' : '龙龟编辑器';
 const light = withBase(`/images/${notes ? 'notes' : 'editor'}-app.png`);
 const dark = withBase(`/images/${notes ? 'notes' : 'editor'}-app-dark.png`);
 ---
 <figure class:list={['app-showcase', { 'editor-showcase': !notes }]} data-app-preview>
-  <div class="showcase-label"><span><span class="status-dot"></span>{notes ? '从一条笔记，到自己的知识花园' : '一份文稿，一处专注的写作空间'}</span><div class="preview-modes" role="group" aria-label={`${name}界面外观`}><button type="button" data-mode="light" aria-pressed="true">日间</button><button type="button" data-mode="dark" aria-pressed="false">夜间</button></div></div>
+  <div class="showcase-toolbar"><div class="preview-modes" role="group" aria-label={`${name}界面外观`}><button type="button" data-mode="light" aria-pressed="true">日间</button><button type="button" data-mode="dark" aria-pressed="false">夜间</button></div></div>
   <a class="screenshot-link" href={light} target="_blank" rel="noopener" aria-label={`查看${name}真实 App 截图原图（新窗口）`}>
     <img class="app-screenshot" data-appearance="light" src={light} width={notes ? 2400 : 1980} height={1520} alt={`${name}实际日间界面，使用虚构示例内容。`} loading={notes ? 'eager' : 'lazy'} />
     <img class="app-screenshot" data-appearance="dark" src={dark} width={notes ? 2400 : 1980} height={1520} alt={`${name}实际夜间界面，使用相同的虚构示例内容。`} loading="lazy" hidden />
   </a>
-  <figcaption><span>{name} · 真实 App 界面，使用示例内容</span><a href={release?.downloadURL ?? withBase(`/downloads/${product}/`)}>{release ? `下载${name} macOS 版 ↓` : `获取${name} ↗`}</a></figcaption>
 </figure>
 <script>
   for (const preview of document.querySelectorAll<HTMLElement>('[data-app-preview]')) {

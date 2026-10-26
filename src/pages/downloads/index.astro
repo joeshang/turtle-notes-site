@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { products, notesIOS, iosDownloadLinks } from '../../data/site';
+---
+<Layout title="下载" description="下载龙龟笔记与龙龟编辑器，查看版本信息和系统要求。">
+  <header class="download-header container">
+    <h1>下载</h1>
+  </header>
+  <div class="download-content container">
+    {products.map(product => <section class="download-card" id={product.id} aria-labelledby={`${product.id}-title`}>
+      <div class="download-card-header">
+        <h2 id={`${product.id}-title`}>{product.chineseName}</h2>
+        <span class="download-status">{product.release ? `v${product.release.version}` : '准备中'}</span>
+      </div>
+      <p class="download-requirements">macOS {product.release?.minimumMacOS ?? product.minimumMacOS} 或更新版本{product.release && ` · ${product.release.architecture}`}</p>
+      {product.release && <div class="download-actions">
+        <a class="button button-primary" href={product.release.downloadURL} aria-label={`下载${product.chineseName} macOS 版`}><Icon name="down" size={18} />下载 macOS 版</a>
+        <a class="download-checksum" href={product.release.checksumURL} aria-label={`${product.chineseName} SHA-256 校验文件`}>SHA-256 校验文件</a>
+      </div>}
+      {product.id === 'notes' && <div class="download-ios" id="ios">
+        <div class="download-card-header">
+          <h3>iOS 版</h3>
+          {iosDownloadLinks.length === 0 && <span class="download-status">准备中</span>}
+        </div>
+        <p class="download-requirements">iOS {notesIOS.minimumIOS} 或更新版本 · iPhone / iPad</p>
+        {iosDownloadLinks.length > 0 && <div class="download-actions">
+          {iosDownloadLinks.map(link => <a class="button button-primary" href={link.url}>{link.label}<Icon name="arrow" size={18} /></a>)}
+        </div>}
+      </div>}
+    </section>)}
+    <p class="download-note download-install">macOS 安装：打开 DMG，将应用拖入“应用程序”文件夹。升级前请先退出正在运行的应用。</p>
+  </div>
+</Layout>

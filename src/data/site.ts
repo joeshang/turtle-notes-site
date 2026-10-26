@@ -36,13 +36,13 @@ export const products: Product[] = [
   {
     id: 'notes', name: 'Turtle Notes', chineseName: '龙龟笔记',
     slogan: '龙龟载思，灵感相连',
-    description: '收藏零散灵感，用标签整理，让想法通过双向链接彼此连接。',
+    description: '轻快有序的 Markdown 笔记，支持 iCloud 同步',
     icon: '/images/app-icon.png', minimumMacOS: '14.0', release: releaseData.notes as PublicRelease | null,
   },
   {
     id: 'editor', name: 'Turtle Markdown Editor', chineseName: '龙龟编辑器',
     slogan: '龙龟载文，落笔成章',
-    description: '打开一份 Markdown，专注把思路写成文章，保存或导出，自由带走。',
+    description: '简洁流畅的本地 Markdown 编辑器',
     icon: '/images/editor-icon.png', minimumMacOS: '14.0', release: releaseData.editor as PublicRelease | null,
   },
 ];
@@ -86,7 +86,7 @@ export const faqs = [
   },
   {
     question: '支持哪些设备？现在可以下载吗？',
-    answer: `${macOSAvailability}。点击首页的 macOS 下载按钮即可直接下载安装包。龙龟笔记另有 iPhone 与 iPad 版本，需要 iOS ${notesIOS.minimumIOS} 或更新版本；${iosDownloadLinks.length ? '正式下载入口见笔记下载页。' : 'iOS 版公开下载仍在准备中。'}`,
+    answer: `${macOSAvailability}。点击首页的 macOS 下载按钮可进入统一下载页，选择相应安装包。龙龟笔记另有 iPhone 与 iPad 版本，需要 iOS ${notesIOS.minimumIOS} 或更新版本；${iosDownloadLinks.length ? '正式下载入口见笔记下载页。' : 'iOS 版公开下载仍在准备中。'}`,
   },
   {
     question: '需要注册龙龟账号吗？',
