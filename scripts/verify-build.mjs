@@ -27,6 +27,15 @@ for (const page of pages) {
   assert.match(html, /shangchuanren@gmail\.com|联系与支持/);
   assert.doesNotMatch(html, /github\.com\/joeshang\/turtle-notes(?:["/])/, 'Private App repository must not be a public download destination');
   for (const match of html.matchAll(/(?:href|src)="([^"\s]+)"/g)) await checkRef(match[1], page);
+  for (const match of html.matchAll(/<img\b[^>]*>/g)) {
+    const src = match[0].match(/src="([^"]+)"/)?.[1];
+    const width = Number(match[0].match(/\bwidth="(\d+)"/)?.[1]);
+    const height = Number(match[0].match(/\bheight="(\d+)"/)?.[1]);
+    if (!src?.endsWith('.png') || !src.startsWith(base) || !width || !height) continue;
+    const bytes = await readFile(join(root, src.slice(base.length)));
+    const actualWidth = bytes.readUInt32BE(16), actualHeight = bytes.readUInt32BE(20);
+    assert(Math.abs((width / height) / (actualWidth / actualHeight) - 1) < 0.001, `${page}: image dimensions distort ${src}`);
+  }
 }
 async function inspect(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
