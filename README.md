@@ -26,7 +26,8 @@ npm run preview
 - 使用与 App 品牌一致的蓝色强调色，日间为浅色画布，夜间为中性炭灰画布。默认跟随系统日夜外观；右上角按钮可切换并在浏览器本地记住选择。没有访客追踪或外部字体。
 - 两款 App 分别展示真实日间 / 夜间界面；可独立切换截图，默认跟随网站外观。图片中的内容为虚构示例。
 - 页面：主页、`downloads/notes/`、`downloads/editor/`、`support/`、`privacy/`、`404.html`。
-- 联系邮箱和产品文案：`src/data/site.ts`；发行下载信息：`src/data/releases.json`。
+- 联系邮箱、产品文案、命名由来和 iOS 入口配置：`src/data/site.ts`；macOS 发行下载信息：`src/data/releases.json`。
+- 龙龟笔记 iOS 入口位于首屏产品下载卡片和 `downloads/notes/#ios`。正式地址确认后填写 `notesIOS.appStoreURL` / `notesIOS.testFlightURL`；未配置时显示准备中，不放虚构跳转。
 - 隐私政策仍为预览稿。个人开发者真实署名、生效日期、服务处理关系与跨境安排需在正式发行前落实；代码和托管配置变更也需同步复核政策。
 
 ## GitHub Pages
