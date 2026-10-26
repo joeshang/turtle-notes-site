@@ -24,14 +24,14 @@ const path = Astro.url.pathname;
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} | Turtle 龙龟</title>
+    <title>{title} | 龙龟</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fafbfc" />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_CN" />
-    <meta property="og:site_name" content="Turtle 龙龟 · 笔记与编辑器" />
+    <meta property="og:site_name" content="龙龟 · 笔记与编辑器" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
@@ -44,26 +44,26 @@ const path = Astro.url.pathname;
     <a href="#main" class="skip-link">跳到正文</a>
     <header class="site-header">
       <div class="container header-inner">
-        <a href={withBase('/')} class="brand" aria-label="Turtle 龙龟首页">
+        <a href={withBase('/')} class="brand" aria-label="龙龟首页">
           <img src={withBase('/images/app-icon.png')} width="38" height="38" alt="" />
-          <span>Turtle<small>龙龟 · 笔记与编辑器</small></span>
+          <span>龙龟<small>笔记与编辑器</small></span>
         </a>
         <nav aria-label="主导航">
           <a href={withBase('/#notes')}>龙龟笔记</a><a href={withBase('/#editor')}>龙龟编辑器</a>
           <a href={withBase('/support/')} aria-current={path === withBase('/support/') ? 'page' : undefined}>支持</a>
         </nav>
         <ThemeToggle />
-        <a class="nav-cta" href={withBase('/#download')}>下载 macOS 版 <Icon name="arrow" size={15} /></a>
+        <a class="nav-cta" href={withBase('/#download')}>获取应用 <Icon name="arrow" size={15} /></a>
       </div>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer container">
       <div class="footer-top">
-        <a href={withBase('/')} class="brand"><img src={withBase('/images/app-icon.png')} width="36" height="36" alt="" /><span>Turtle <span class="brand-light">龙龟</span></span></a>
+        <a href={withBase('/')} class="brand"><img src={withBase('/images/app-icon.png')} width="36" height="36" alt="" /><span>龙龟</span></a>
         <p>龙龟载文，落笔成章。</p>
         <nav aria-label="页脚导航"><a href={withBase('/downloads/notes/')}>笔记下载</a><a href={withBase('/downloads/editor/')}>编辑器下载</a><a href={withBase('/support/')}>联系与支持</a><a href={withBase('/privacy/')}>隐私政策</a></nav>
       </div>
-      <div class="footer-bottom"><span>© {new Date().getFullYear()} Turtle 龙龟</span><span>为每一个值得留下的想法。</span></div>
+      <div class="footer-bottom"><span>© {new Date().getFullYear()} 龙龟</span><span>为每一个值得留下的想法。</span></div>
     </footer>
   </body>
 </html>

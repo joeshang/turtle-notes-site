@@ -11,7 +11,7 @@ const sections = [
 <Layout title="隐私政策" description="龙龟笔记与龙龟编辑器隐私政策预览稿：信息用途、本地存储、可选 iCloud 同步、第三方、保存与删除以及个人信息权利。">
   <header class="document-hero container"><p class="eyebrow">PRIVACY / 让文字有归处，也让信息有边界</p><h1>隐私政策</h1><p>适用于龙龟笔记、龙龟编辑器及本官网。最近更新：{brand.policyUpdated}。</p></header>
   <article class="document-content privacy-content container">
-    <div class="document-notice"><p><strong>本地预览稿 · 尚未正式生效</strong><br />本产品拟由个人开发者面向中国大陆发行。本稿依据当前功能编写；正式署名、生效日期、网站与下载服务、第三方处理地点和跨境安排仍待确认，不能直接作为已完成合规核验的发行政策。</p></div>
+    <div class="document-notice"><p><strong>政策预览稿 · 尚未正式生效</strong><br />本产品拟由个人开发者面向中国大陆发行。本稿依据当前功能编写；正式署名、生效日期、网站与下载服务、第三方处理地点和跨境安排仍待确认，不能直接作为已完成合规核验的发行政策。</p></div>
     <section class="privacy-summary" aria-labelledby="privacy-summary"><p class="eyebrow">先了解这几件事</p><h2 id="privacy-summary">内容如何保存，由使用场景决定。</h2><ul><li><strong>本地写作：</strong>Notes 使用设备上的笔记库；Editor 使用你选择的 Markdown 文件。</li><li><strong>可选同步：</strong>具备相应权限的 Notes 版本可使用 Apple CloudKit；Editor 没有内置 CloudKit 同步。</li><li><strong>联系支持：</strong>发送邮件会向开发者及邮件服务提供商提供你主动发送的信息。</li><li><strong>删除有边界：</strong>废纸篓、同步删除标记、其他设备副本与系统备份有不同的保留方式。</li></ul></section>
     <nav class="privacy-toc" aria-label="隐私政策目录">{sections.map(([id, label], index) => <a href={`#${id}`}>{index + 1}. {label}</a>)}</nav>
 
