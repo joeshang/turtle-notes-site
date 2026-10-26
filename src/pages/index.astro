@@ -24,7 +24,7 @@ import { products } from '../data/site';
         <img src={withBase(item.icon)} width="52" height="52" alt="" />
         <div class="product-card-copy"><h2>{item.chineseName}</h2><p>{item.description}</p></div>
         <div class="product-platforms">
-          <a href={withBase(`/downloads/#${item.id}`)} aria-label={`前往${item.chineseName} macOS 下载页`} class="platform-link">下载 macOS 版 <Icon name="arrow" size={13} /></a>
+          <a href={withBase(`/downloads/#${item.id}`)} aria-label={`前往${item.chineseName} macOS 下载页`} class="platform-link">macOS <Icon name="arrow" size={13} /></a>
           {item.id === 'notes' && <a href={withBase('/downloads/#ios')} aria-label="龙龟笔记 iOS 下载" class="platform-link">iOS <Icon name="arrow" size={13} /></a>}
         </div>
       </article>)}
