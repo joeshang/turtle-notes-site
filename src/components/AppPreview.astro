@@ -1,8 +1,10 @@
 ---
 import { withBase } from '../lib/paths';
+import { products } from '../data/site';
 interface Props { product: 'notes' | 'editor'; }
 const { product } = Astro.props;
 const notes = product === 'notes';
+const release = products.find(item => item.id === product)?.release;
 const name = notes ? '龙龟笔记' : '龙龟编辑器';
 const light = withBase(`/images/${notes ? 'notes' : 'editor'}-app.png`);
 const dark = withBase(`/images/${notes ? 'notes' : 'editor'}-app-dark.png`);
@@ -13,7 +15,7 @@ const dark = withBase(`/images/${notes ? 'notes' : 'editor'}-app-dark.png`);
     <img class="app-screenshot" data-appearance="light" src={light} width={notes ? 2400 : 1980} height={1520} alt={`${name}实际日间界面，使用虚构示例内容。`} loading={notes ? 'eager' : 'lazy'} />
     <img class="app-screenshot" data-appearance="dark" src={dark} width={notes ? 2400 : 1980} height={1520} alt={`${name}实际夜间界面，使用相同的虚构示例内容。`} loading="lazy" hidden />
   </a>
-  <figcaption><span>{name} · 真实 App 界面，使用示例内容</span><a href={withBase(`/downloads/${product}/`)}>获取{name} ↗</a></figcaption>
+  <figcaption><span>{name} · 真实 App 界面，使用示例内容</span><a href={release?.downloadURL ?? withBase(`/downloads/${product}/`)}>{release ? `下载${name} macOS 版 ↓` : `获取${name} ↗`}</a></figcaption>
 </figure>
 <script>
   for (const preview of document.querySelectorAll<HTMLElement>('[data-app-preview]')) {

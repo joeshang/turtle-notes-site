@@ -17,7 +17,15 @@ import { products } from '../data/site';
     </div>
     <div class="hero-art" aria-hidden="true"><span class="hero-turtle"></span></div>
     <div class="product-choice" id="download" aria-label="选择产品并下载">
-      {products.map(item => <article><img src={withBase(item.icon)} width="52" height="52" alt="" /><div><span class="eyebrow">{item.name}</span><h2>{item.chineseName}</h2><p>{item.slogan}。</p></div><div class="product-platforms"><a href={withBase(`/downloads/${item.id}/#macos`)} aria-label={`${item.chineseName} macOS 下载`} class="platform-link">macOS <Icon name="arrow" size={13} /></a>{item.id === 'notes' && <a href={withBase('/downloads/notes/#ios')} aria-label="龙龟笔记 iOS 下载" class="platform-link">iOS <Icon name="arrow" size={13} /></a>}</div></article>)}
+      {products.map(item => <article>
+        <img src={withBase(item.icon)} width="52" height="52" alt="" />
+        <div><span class="eyebrow">{item.name}</span><h2>{item.chineseName}</h2><p>{item.slogan}。</p></div>
+        <div class="product-platforms">
+          <a href={item.release?.downloadURL ?? withBase(`/downloads/${item.id}/#macos`)} aria-label={`${item.release ? '直接下载' : '查看'}${item.chineseName} macOS ${item.release ? `v${item.release.version}（${item.release.architecture}）` : '下载信息'}`} class="platform-link">{item.release ? '下载 macOS 版' : 'macOS'} <Icon name={item.release ? 'down' : 'arrow'} size={13} /></a>
+          {item.id === 'notes' && <a href={withBase('/downloads/notes/#ios')} aria-label="龙龟笔记 iOS 下载" class="platform-link">iOS <Icon name="arrow" size={13} /></a>}
+        </div>
+        {item.release && <p class="product-release-info"><span>v{item.release.version} · {item.release.architecture} · macOS {item.release.minimumMacOS}+</span><a href={withBase(`/downloads/${item.id}/#macos`)}>安装说明与校验</a></p>}
+      </article>)}
     </div>
   </section>
   <section class="product-section container" id="notes">
