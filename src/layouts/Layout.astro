@@ -61,9 +61,9 @@ const path = Astro.url.pathname;
       <div class="footer-top">
         <a href={withBase('/')} class="brand"><img src={withBase('/images/app-icon.png')} width="36" height="36" alt="" /><span>龙龟</span></a>
         <p>龙龟载文，落笔成章。</p>
-        <nav aria-label="页脚导航"><a href={withBase('/downloads/notes/')}>笔记下载</a><a href={withBase('/downloads/editor/')}>编辑器下载</a><a href={withBase('/support/')}>联系与支持</a><a href={withBase('/privacy/')}>隐私政策</a></nav>
+        <nav aria-label="页脚导航"><a href={withBase('/support/')}>联系与支持</a><a href={withBase('/privacy/')}>隐私政策</a></nav>
       </div>
-      <div class="footer-bottom"><span>© {new Date().getFullYear()} 龙龟</span><span>为每一个值得留下的想法。</span></div>
+      <div class="footer-bottom"><span>© {new Date().getFullYear()} 龙龟</span></div>
     </footer>
   </body>
 </html>

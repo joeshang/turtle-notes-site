@@ -86,7 +86,7 @@
   .footer-top .brand { font-size: 15px; }
   .footer-top > p { font-family: var(--serif); color: var(--subtle); font-size: 12px; }
   .footer-top nav { display: flex; gap: 25px; font-size: 11px; color: var(--muted); margin-left: auto; }
-  .footer-bottom { display: flex; justify-content: space-between; color: var(--subtle); font-size: 9px; margin-top: 25px; }
+  .footer-bottom { color: var(--subtle); font-size: 9px; margin-top: 25px; }
   .document-hero { max-width: 760px; padding-block: 65px 35px; }
   .document-hero .eyebrow { color: var(--subtle); margin-bottom: 18px; }
   .document-hero h1 { text-wrap: balance; font-family: var(--serif); font-size: 43px; font-weight: 600; }
@@ -241,7 +241,7 @@
     .footer-top { flex-direction: column; align-items: flex-start; gap: 20px; }
     .footer-top nav { font-size: 10px; gap: 17px; margin-left: 0; flex-wrap: wrap; }
     .footer-top .brand { font-size: 14px; }
-    .footer-bottom { font-size: 8px; gap: 14px; }
+    .footer-bottom { font-size: 8px; }
     .document-hero { padding-top: 43px; }
     .document-hero h1 { font-size: 32px; }
     .document-content h2 { font-size: 19px; }

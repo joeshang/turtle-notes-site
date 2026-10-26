@@ -1,20 +1,23 @@
 ---
-import { withBase } from '../lib/paths';
 import Layout from '../layouts/Layout.astro';
-import FAQ from '../components/FAQ.astro';
 import Icon from '../components/Icon.astro';
 import { brand } from '../data/site';
 ---
-<Layout title="联系与支持" description="联系龙龟笔记与龙龟编辑器开发者，查阅常见问题，了解如何反馈使用中遇到的问题。">
-  <header class="document-hero container"><p class="eyebrow">HERE TO HELP</p><h1>有问题，一起解决。</h1><p>使用中的疑问、遇到的小问题，或一个让龙龟更好用的想法，都欢迎写信告诉我。</p></header>
+<Layout title="联系与支持" description="联系龙龟笔记与龙龟编辑器开发者，反馈使用问题或提出功能建议。">
+  <header class="document-hero container">
+    <h1>联系与支持</h1>
+    <p>有使用问题或功能建议，欢迎给我写信。</p>
+  </header>
   <article class="document-content container">
-    <div class="contact-panel"><p class="eyebrow">直接联系开发者</p><a href={`mailto:${brand.supportEmail}?subject=${encodeURIComponent('Turtle 使用反馈')}`}><Icon name="mail" size={23} />{brand.supportEmail}</a><p>点击邮箱地址会打开你的邮件应用。请在主题中注明“龙龟笔记”或“龙龟编辑器”。</p></div>
-    <h2>反馈问题时，可以附上</h2>
-    <ul><li>App 名称、版本号，以及 macOS / iOS 版本。</li><li>你当时在做什么，期望发生什么，实际看到了什么。</li><li>能否再次出现，以及尽可能简短的操作步骤。</li><li>如果方便，提供已遮去私人信息的截图或最小示例文稿。</li></ul>
-    <p>涉及同步时，请说明使用的是本地版还是具备 iCloud 权限的版本，以及设置页显示的同步状态。不要发送 Apple 账户密码、密钥或完整私人笔记库。</p>
-    <h2>笔记内容遇到问题？</h2><p>先保留现有笔记和附件。若仍可打开重要内容，建议先导出一份独立副本，再描述你遇到的情况并发邮件联系。不要急着删除笔记库或清空 iCloud 数据。</p>
-    <h2>常见问题</h2><FAQ />
-    <h2 id="editor">关于龙龟编辑器</h2><p>Turtle Markdown Editor（龙龟编辑器）用于独立 Markdown 文件的打开、编辑、保存与另存为。它与龙龟笔记共用编辑能力，支持表格、公式、Mermaid 与 Markdown / PDF 导出；文稿不由 Notes 笔记库托管。</p><p>两款 App 均有独立下载页：<a href={withBase('/downloads/notes/')}>龙龟笔记下载</a>、<a href={withBase('/downloads/editor/')}>龙龟编辑器下载</a>。公开安装包尚未开放。使用咨询和问题反馈可发送至上方邮箱，并在主题标明“龙龟编辑器”。</p>
-    <h2>隐私与数据</h2><p>关于本地存储、可选 iCloud 同步、数据保留和删除，请阅读<a href={withBase('/privacy/')}>隐私政策</a>。</p>
+    <div class="contact-panel">
+      <p class="eyebrow">联系开发者</p>
+      <a href={`mailto:${brand.supportEmail}?subject=${encodeURIComponent('龙龟使用反馈')}`}><Icon name="mail" size={23} />{brand.supportEmail}</a>
+    </div>
+    <h2>反馈问题时，请附上</h2>
+    <ul>
+      <li>应用名称与版本，以及 macOS / iOS 版本。</li>
+      <li>问题描述和复现步骤。</li>
+      <li>相关截图或示例文稿（如有，请去除私人信息）。</li>
+    </ul>
   </article>
 </Layout>
