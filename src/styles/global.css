@@ -318,3 +318,31 @@
     .showcase-label { font-size: 8px; }
   }
 }
+
+@layer components {
+  .product-choice article { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; }
+  .product-platforms { display: flex; align-items: center; gap: 7px; }
+  .platform-link { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 36px; padding: 5px 10px; border: 1px solid var(--border-strong); border-radius: 5px; font-size: 11px; color: var(--accent); white-space: nowrap; }
+  .platform-link:hover { background: var(--surface-hover); }
+  .download-platform { scroll-margin-top: 30px; }
+  .download-platform > .platform-heading { margin-top: 0; }
+  .ios-download { margin-top: 28px; padding: 27px 30px; background: var(--surface-blue); border: 1px solid var(--line); border-radius: 8px; }
+  .platform-kicker { font-size: 11px; letter-spacing: .08em; color: var(--accent); }
+  .ios-download-heading h2 { margin-top: 9px; }
+  .ios-download-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 23px; }
+  .ios-download-actions .button { color: var(--on-primary); text-decoration: none; }
+  .ios-availability { display: flex; gap: 11px; align-items: flex-start; border-top: 1px solid var(--line); padding-top: 19px; margin-top: 20px; }
+  .ios-availability .status-dot { margin-top: 9px; }
+  .ios-availability strong { font-size: 13px; font-weight: 550; }
+  .ios-availability p { font-size: 12px; margin-top: 5px; }
+}
+@layer responsive {
+  @media (max-width: 950px) {
+    .product-choice article { grid-template-columns: 45px minmax(0, 1fr); }
+    .product-platforms { grid-column: 2; }
+  }
+  @media (max-width: 680px) {
+    .product-platforms .platform-link { min-height: 44px; padding-inline: 12px; }
+    .ios-download { padding: 22px; }
+  }
+}
