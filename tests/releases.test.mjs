@@ -6,10 +6,10 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { repository, verifyRelease, syncRelease } from '../scripts/sync-release.mjs';
 const hash = value => createHash('sha256').update(value).digest('hex');
-function fixture() {
+function fixture(names = {}) {
   const files = new Map();
   const products = ['notes', 'editor'].map(id => {
-    const filename = `${id}-0.2.0-arm64-release.dmg`; const bytes = Buffer.from(`${id} verified bytes`);
+    const filename = `${names[id] ?? id}-0.2.0-arm64-release.dmg`; const bytes = Buffer.from(`${id} verified bytes`);
     files.set(filename, bytes);
     const sha256 = hash(bytes); const checksumFilename = `${filename}.sha256`;
     files.set(checksumFilename, Buffer.from(`${sha256}  ${filename}\n`));
@@ -32,6 +32,19 @@ test('verified public products map to anonymous versioned GitHub download URLs',
   assert.equal(result.notes.architecture, 'Apple Silicon');
   assert.match(result.editor.downloadURL, /joeshang\/turtle-notes-site\/releases\/download\/v0.2.0\/editor/);
 });
+test('Chinese product names verify and produce encoded download URLs', async () => {
+  const f = fixture({ notes: '龙龟笔记', editor: '龙龟编辑器' });
+  const result = await verifyRelease(f.release, f.fetcher);
+  assert.match(decodeURIComponent(result.notes.downloadURL), /龙龟笔记-0\.2\.0-arm64-release\.dmg$/);
+  assert.match(decodeURIComponent(result.editor.checksumURL), /龙龟编辑器-0\.2\.0-arm64-release\.dmg\.sha256$/);
+  assert.ok(!result.notes.downloadURL.includes('龙龟'));
+});
+for (const name of ['../龙龟', '/龙龟', '龙/龟', '龙\\龟', '龙\0龟', '龙\u202e龟', '%2f龙龟', '.hidden']) {
+  test(`reject unsafe Unicode artifact name ${JSON.stringify(name)}`, async () => {
+    const f = fixture({ notes: name });
+    await assert.rejects(verifyRelease(f.release, f.fetcher), /Invalid artifact name/);
+  });
+}
 test('missing API digest falls back to streamed bytes, detects corruption', async () => {
   const f = fixture(); delete f.release.assets[0].digest;
   await verifyRelease(f.release, f.fetcher);

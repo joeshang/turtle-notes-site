@@ -58,7 +58,7 @@ export async function verifyRelease(release, fetcher = fetch) {
   const result = {}; const expected = new Set(['turtle-downloads.json']);
   for (const record of data.products) {
     requireValue(['notes', 'editor'].includes(record.id) && !result[record.id], 'Duplicate or unknown product');
-    requireValue(typeof record.filename === 'string' && /^[\w.-]+-release\.dmg$/.test(record.filename) && record.checksumFilename === `${record.filename}.sha256`, 'Invalid artifact name');
+    requireValue(typeof record.filename === 'string' && /^[\p{L}\p{N}][\p{L}\p{N}_.-]*-release\.dmg$/u.test(record.filename) && record.checksumFilename === `${record.filename}.sha256`, 'Invalid artifact name');
     requireValue(/^[a-f0-9]{64}$/.test(record.sha256) && Number.isSafeInteger(record.bytes) && record.bytes > 0, 'Invalid digest or size');
     requireValue(['arm64', 'x86_64'].includes(record.architecture) && /^\d+\.\d+(?:\.\d+)?$/.test(record.minimumMacOS), 'Invalid architecture or system requirement');
     requireValue(!expected.has(record.filename), 'Two products must have distinct artifacts');
