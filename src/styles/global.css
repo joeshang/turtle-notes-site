@@ -69,7 +69,6 @@
   .faq-intro .eyebrow { color: var(--subtle); margin-bottom: 15px; }
   .faq-intro h2 { font-size: 32px; }
   .faq-intro > p:last-of-type { font-size: 13px; color: var(--muted); margin-top: 14px; }
-  .faq-intro .text-link { margin-top: 30px; }
   .faq-list { border-top: 1px solid var(--line); }
   .faq-list details { border-bottom: 1px solid var(--line); }
   .faq-list summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; list-style: none; padding: 19px 0; cursor: pointer; font-size: 13px; font-weight: 500; }
@@ -142,8 +141,6 @@
   .comparison tbody th { font-weight: 400; color: var(--muted); }
   .comparison th:first-child { padding-left: 0; }
   .comparison tbody td { color: var(--ink); }
-  .support-line { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 35px; }
-  .support-line p { font-size: 12px; color: var(--muted); }
 }
 @layer responsive {
   @media (max-width: 950px) {
@@ -208,11 +205,7 @@
     .section-space { padding-block: 54px; }
     .faq-section { grid-template-columns: 1fr; gap: 28px; }
     .faq-intro h2 { font-size: 28px; }
-    .faq-intro .text-link { margin-top: 16px; }
     .faq-list summary { font-size: 12px; padding-block: 17px; }
-    .support-line { padding-block: 28px; flex-wrap: wrap; gap: 10px; }
-    .support-line p { font-size: 11px; }
-    .support-line .text-link { font-size: 11px; }
     .footer-inner nav { font-size: 10px; gap: 17px; flex-wrap: wrap; }
     .footer-copyright { font-size: 10px; }
     .document-hero { padding-top: 43px; }

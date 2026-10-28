@@ -24,7 +24,7 @@ for (const page of pages) {
   assert.match(html, /<html lang="zh-CN"/);
   assert.match(html, /<title>[^<]+<\/title>/);
   assert.match(html, /name="description"/);
-  assert.match(html, /shangchuanren@gmail\.com|联系与支持/);
+  assert(html.includes(`href="${base}support/"`), `${page}: missing support navigation`);
   assert.doesNotMatch(html, /github\.com\/joeshang\/turtle-notes(?:["/])/, 'Private App repository must not be a public download destination');
   for (const match of html.matchAll(/(?:href|src)="([^"\s]+)"/g)) await checkRef(match[1], page);
   for (const match of html.matchAll(/<img\b[^>]*>/g)) {
