@@ -41,12 +41,12 @@ npm run preview
 
 ## 正式 Release 与官网更新
 
-公开 Release 接收**同一次正式构建**的两份 DMG、两份 `.sha256`，以及 `turtle-downloads.json`。不要将 DMG 放到 Git 历史、`public/` 或 Pages artifact。
+公开 Release 接收**同一次正式构建**的两份 DMG、两份 `.sha256`、两份 Sparkle appcast，以及 `turtle-downloads.json`。旧版没有 appcast 的五附件格式继续兼容。不要将 DMG 放到 Git 历史、`public/` 或 Pages artifact。
 
 正式发布脚本应在所有本地签名、公证、票据与安装包验证完成后：
 
 1. 在内部归档仓库保留原 Release；在本仓库以相同版本创建草稿，public tag 指向本仓库官网 commit。
-2. 上传上述五个公开文件。下载元数据仅含产品、版本、最低系统、架构、文件名、大小和 SHA-256，不含 App 源码 commit、团队签名信息或内部构建路径。
+2. 上传上述七个公开文件。下载元数据含产品、版本、最低系统、架构、文件名、大小、SHA-256，以及构建号和 appcast 的文件名、大小、摘要，不含 App 源码 commit、团队签名信息或内部构建路径。
 3. 校验附件集合、大小与 SHA-256 后发布；完整元数据的 SHA-256 同时记录在 Release 正文的 `turtle-public-release` 标记中。不要覆盖正式版本。
 
 `npm run sync-release` 在**构建时**读取本仓库公开的稳定 Release：
@@ -58,6 +58,10 @@ npm run preview
 - 首页下载按钮统一进入 `downloads/`，并定位到对应产品。页面集中展示两款 App 的版本、系统要求、安装包和 SHA-256 校验入口，以及共用的 macOS 安装说明；笔记 iOS 未开放时显示“准备中”。旧的独立下载页面已移除。
 
 公开 DMG 下载使用 `https://github.com/joeshang/turtle-notes-site/releases/download/<tag>/<filename>`，不要求访问者登录。运行时没有向 GitHub API 查询版本的客户端请求。
+
+带更新清单的 Release 还会验证 appcast 的 XML、版本、系统要求、DMG 地址和大小、EdDSA 签名格式，拒绝 DTD、跨产品清单与未知附件。两产品及所选历史架构都验证完成后，才将清单写到 `public/updates/<notes|editor>/<arm64|x86_64>/appcast.xml`，由 Astro 复制到 Pages。保留另一架构最近的已验证清单；失败时不部署部分更新。应用内 Sparkle 另外用公钥验证实际下载 DMG 的 EdDSA 签名。
+
+先合并本仓库的兼容改动，再发布带更新器的 macOS App。应用更新源包含项目 base，例如 `https://joeshang.github.io/turtle-notes-site/updates/notes/arm64/appcast.xml`。生成的 `public/updates/` 不提交 Git。
 
 如需本地核对：
 
