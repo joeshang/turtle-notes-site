@@ -3,3 +3,4 @@ dist/
 .astro/
 .wrangler/
 src/data/releases.json.tmp
+public/updates/
