@@ -30,14 +30,21 @@ npm run preview
 - 龙龟笔记 iOS 入口位于首屏产品下载卡片和 `downloads/notes/#ios`。正式地址确认后填写 `notesIOS.appStoreURL` / `notesIOS.testFlightURL`；未配置时显示准备中，不放虚构跳转。
 - 隐私政策仍为预览稿。个人开发者真实署名、生效日期、服务处理关系与跨境安排需在正式发行前落实；代码和托管配置变更也需同步复核政策。
 
-## GitHub Pages
+## GitHub Pages：本机构建并发布
 
-1. 仓库保持 public。在 **Settings → Pages → Build and deployment** 选择 **GitHub Actions**。
-2. `github-pages` environment 的部署规则允许 `main` 分支，以及用于正式发布的 `v*` 标签（release 事件的 ref 为标签）。不要为此放宽仓库其他权限。
-3. 合并至 `main` 后，工作流先测试、加载经过校验的公开下载信息并构建，再通过官方 Pages Actions 上传、部署 `dist/`。也可在 `main` 上手动运行。
-4. PR 只测试与构建，不上传 Pages artifact、不触发部署。发布正式 Release 时重新构建官网，始终检出当前 `main` 的官网源码。
+官网仓库保持 public，使用 GitHub Free 即可，无需 Pro。本机完成测试、读取经过验证的 Release 数据及 Astro 构建，再把静态产物推送到 `gh-pages` 分支；不运行自定义部署 workflow，也不需要为 GitHub CLI 添加 `workflow` OAuth scope。
 
-工作流使用 `contents: read`；仅部署 job 使用 `pages: write` 和 `id-token: write`。Pages artifact 不包含 DMG、源码仓库凭据或构建日志。
+```sh
+# gh 已登录且具备本仓库写权限，安装 Node.js 和 npm 后执行：
+npm ci
+npm run publish:pages
+```
+
+发布命令使用 `gh` 的现有登录读取 GitHub API，安装包/CDN 保持匿名请求，不导出访问令牌。所有版本、附件、SHA-256 和 appcast 校验及测试、构建通过后，才推送静态文件；不强推，不覆盖并发发布。DMG、源码凭据和构建日志不进入 Pages 分支。
+
+一次性设置：在 Settings → Pages 选择 **Deploy from a branch**，分支为 `gh-pages`、目录为 `/`。发布产物带 `.nojekyll`，不再进行 Jekyll 编译。原 `.github/workflows/pages.yml` 已通过仓库设置停用；文件仅作为历史参考保留。GitHub Pages 后台仍可能显示平台自带的部署任务，这是托管机制，并非自定义构建流程。
+
+修改官网代码或发布新版安装包后，均需从当前官网源码运行 `npm run publish:pages`；公开 Release 完成并不自动构建网站。
 
 ## 正式 Release 与官网更新
 
@@ -54,7 +61,7 @@ npm run preview
 - 忽略草稿和预发布；按数字版本选择最新版本。
 - 校验仓库、tag、版本、产品、架构、系统要求、附件集合、元数据标记、DMG 大小与摘要、校验文件内容。GitHub 没有返回 DMG digest 时，流式下载计算 SHA-256。
 - 两个产品全部通过后才原子替换下载配置。缺文件、损坏、网络或权限错误会让构建失败，已有 Pages 部署不受影响。
-- 仓库保留已验证的 v1.0.0 下载快照，保证本地与 PR 预览也能展示真实下载入口；正式部署仍会校验并同步最新稳定 Release。没有正式 Release 时保留现有配置，不会虚构安装包链接。
+- 仓库保留已验证的 v1.2.0 下载快照，保证本地与 PR 预览也能展示真实下载入口；正式部署仍会校验并同步最新稳定 Release。没有正式 Release 时保留现有配置，不会虚构安装包链接。
 - 首页下载按钮统一进入 `downloads/`，并定位到对应产品。页面集中展示两款 App 的版本、系统要求、安装包和 SHA-256 校验入口，以及共用的 macOS 安装说明；笔记 iOS 未开放时显示“准备中”。旧的独立下载页面已移除。
 
 公开 DMG 下载使用 `https://github.com/joeshang/turtle-notes-site/releases/download/<tag>/<filename>`，不要求访问者登录。运行时没有向 GitHub API 查询版本的客户端请求。
@@ -70,6 +77,6 @@ npm run sync-release
 npm run verify
 ```
 
-一次上传中途失败，应在原构建环境使用保存的产物续传同版本；不得重新构建、重签或覆盖已经公开的版本。先修复失败的 Release，再重跑 Pages 工作流即可。大陆备用镜像另行验证，不属于当前主下载源。
+一次上传中途失败，应在原构建环境使用保存的产物续传同版本；不得重新构建、重签或覆盖已经公开的版本。先修复失败的 Release，再从官网仓库运行 `npm run publish:pages`。大陆备用镜像另行验证，不属于当前主下载源。
 
-参考：[Astro GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)、[GitHub Pages 工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
+参考：[Astro GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)、[GitHub Pages 分支发布](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
