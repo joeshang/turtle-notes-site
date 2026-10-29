@@ -109,6 +109,7 @@ export async function verifyRelease(release, fetcher = fetch, feeds = new Map())
     expected.add(record.filename); expected.add(record.checksumFilename);
     result[record.id] = {
       version: data.version, minimumMacOS: record.minimumMacOS,
+      ...(record.build === undefined ? {} : { build: record.build }),
       architecture: record.architecture === 'arm64' ? 'Apple Silicon' : 'Intel',
       downloadURL: downloadURL(data.tag, record.filename), checksumURL: downloadURL(data.tag, record.checksumFilename),
     };

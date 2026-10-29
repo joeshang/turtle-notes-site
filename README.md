@@ -30,21 +30,15 @@ npm run preview
 - 龙龟笔记 iOS 入口位于首屏产品下载卡片和 `downloads/notes/#ios`。正式地址确认后填写 `notesIOS.appStoreURL` / `notesIOS.testFlightURL`；未配置时显示准备中，不放虚构跳转。
 - 隐私政策仍为预览稿。个人开发者真实署名、生效日期、服务处理关系与跨境安排需在正式发行前落实；代码和托管配置变更也需同步复核政策。
 
-## GitHub Pages：本机构建并发布
+## GitHub Pages：混合发布
 
-官网仓库保持 public，使用 GitHub Free 即可，无需 Pro。本机完成测试、读取经过验证的 Release 数据及 Astro 构建，再把静态产物推送到 `gh-pages` 分支；不运行自定义部署 workflow，也不需要为 GitHub CLI 添加 `workflow` OAuth scope。
+公开官网使用标准 Ubuntu Actions runner 构建部署，GitHub Free 可用，无需 Pro。macOS App 仍在本机签名、公证；App 仓库 release.sh 完成公开 Release 后显式派发本 workflow 并等待线上验证。
 
-```sh
-# gh 已登录且具备本仓库写权限，安装 Node.js 和 npm 后执行：
-npm ci
-npm run publish:pages
-```
+Pages Source 选择 GitHub Actions，启用 pages.yml，github-pages 环境允许 main。首次编辑 workflow 需 CLI workflow OAuth 权限；日常派发只用仓库／Actions 权限。
 
-发布命令使用 `gh` 的现有登录读取 GitHub API，安装包/CDN 保持匿名请求，不导出访问令牌。所有版本、附件、SHA-256 和 appcast 校验及测试、构建通过后，才推送静态文件；不强推，不覆盖并发发布。DMG、源码凭据和构建日志不进入 Pages 分支。
+workflow_dispatch 接收 release_tag、release_build、source_sha、request_id，两个产品均匹配后才构建。API 使用只读 GITHUB_TOKEN，下载不携带令牌，App 私钥和公证凭据不进入 workflow。部署 job 只使用 Pages 写入及 OIDC 权限。
 
-一次性设置：在 Settings → Pages 选择 **Deploy from a branch**，分支为 `gh-pages`、目录为 `/`。发布产物带 `.nojekyll`，不再进行 Jekyll 编译。原 `.github/workflows/pages.yml` 已通过仓库设置停用；文件仅作为历史参考保留。GitHub Pages 后台仍可能显示平台自带的部署任务，这是托管机制，并非自定义构建流程。
-
-修改官网代码或发布新版安装包后，均需从当前官网源码运行 `npm run publish:pages`；公开 Release 完成并不自动构建网站。
+协议 v2 的 dist/deployment.json 记录官网源码、版本、构建号、请求及 run ID。release.sh 同时核对 workflow 结论、线上下载页、更新清单和回执，恢复失联派发，--resume 不重建 App。main 更新也可部署，PR 仅测试；Release 事件不另起重复部署。旧 gh-pages 分支保留历史，本地 npm run publish:pages 仅保留为手动静态输出工具。
 
 ## 正式 Release 与官网更新
 
@@ -77,6 +71,6 @@ npm run sync-release
 npm run verify
 ```
 
-一次上传中途失败，应在原构建环境使用保存的产物续传同版本；不得重新构建、重签或覆盖已经公开的版本。先修复失败的 Release，再从官网仓库运行 `npm run publish:pages`。大陆备用镜像另行验证，不属于当前主下载源。
+一次上传中途失败，应在原构建环境使用保存的产物续传同版本；不得重新构建、重签或覆盖已经公开的版本。先修复失败阶段，再以原参数加 --resume 继续 release.sh。大陆备用镜像另行验证，不属于当前主下载源。
 
 参考：[Astro GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)、[GitHub Pages 分支发布](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
