@@ -1,16 +1,16 @@
 {
   "editor": {
-    "version": "1.2.0",
+    "version": "1.2.1",
     "minimumMacOS": "14.0",
     "architecture": "Apple Silicon",
-    "downloadURL": "https://github.com/joeshang/turtle-notes-site/releases/download/v1.2.0/Turtle-Markdown-Editor-1.2.0-5-arm64-release.dmg",
-    "checksumURL": "https://github.com/joeshang/turtle-notes-site/releases/download/v1.2.0/Turtle-Markdown-Editor-1.2.0-5-arm64-release.dmg.sha256"
+    "downloadURL": "https://github.com/joeshang/turtle-notes-site/releases/download/v1.2.1/Turtle-Markdown-Editor-1.2.1-6-arm64-release.dmg",
+    "checksumURL": "https://github.com/joeshang/turtle-notes-site/releases/download/v1.2.1/Turtle-Markdown-Editor-1.2.1-6-arm64-release.dmg.sha256"
   },
   "notes": {
-    "version": "1.2.0",
+    "version": "1.2.1",
     "minimumMacOS": "14.0",
     "architecture": "Apple Silicon",
-    "downloadURL": "https://github.com/joeshang/turtle-notes-site/releases/download/v1.2.0/Turtle-Notes-1.2.0-5-arm64-release.dmg",
-    "checksumURL": "https://github.com/joeshang/turtle-notes-site/releases/download/v1.2.0/Turtle-Notes-1.2.0-5-arm64-release.dmg.sha256"
+    "downloadURL": "https://github.com/joeshang/turtle-notes-site/releases/download/v1.2.1/Turtle-Notes-1.2.1-6-arm64-release.dmg",
+    "checksumURL": "https://github.com/joeshang/turtle-notes-site/releases/download/v1.2.1/Turtle-Notes-1.2.1-6-arm64-release.dmg.sha256"
   }
 }
