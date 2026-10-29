@@ -11,10 +11,19 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 
 // Use gh's existing login for API reads. Never extract an OAuth token or
 // attach credentials to release-download/CDN requests.
-export async function releaseFetch(url, options, api = async endpoint => {
+export async function readGitHubApi(endpoint, token = process.env.GITHUB_TOKEN, fetcher = fetch) {
+  if (token) {
+    const response = await fetcher(`https://api.github.com/${endpoint}`, {
+      headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}` },
+      signal: AbortSignal.timeout(120_000),
+    });
+    if (!response.ok) throw new Error(`GitHub API request failed (${response.status})`);
+    return response.text();
+  }
   const { stdout } = await execute('gh', ['api', '--hostname', 'github.com', endpoint], { cwd: root, maxBuffer: 8 * 1024 * 1024, timeout: 120_000 });
   return stdout;
-}, anonymousFetch = fetch) {
+}
+export async function releaseFetch(url, options, api = readGitHubApi, anonymousFetch = fetch) {
   const parsed = new URL(url);
   if (parsed.origin === 'https://api.github.com') {
     const body = await api(parsed.pathname.slice(1) + parsed.search);
@@ -36,7 +45,7 @@ export function validateRequestedRelease(result, { releaseTag, releaseBuild } = 
   }
 }
 
-export async function publish({ releaseTag, releaseBuild, expectedRepository, resultFile } = {}) {
+export async function buildPages({ releaseTag, releaseBuild, expectedRepository } = {}) {
   if (expectedRepository && expectedRepository !== repository) throw new Error('Publisher repository differs from the requested target');
   if (releaseTag && !/^v\d+\.\d+(?:\.\d+)?$/.test(releaseTag)) throw new Error('Invalid requested release tag');
   if (releaseBuild && !/^[1-9]\d*$/.test(releaseBuild)) throw new Error('Invalid requested build number');
@@ -46,6 +55,13 @@ export async function publish({ releaseTag, releaseBuild, expectedRepository, re
   process.stdout.write(await command('npm', ['test']) + '\n');
   process.stdout.write(await command('npm', ['run', 'verify']) + '\n');
   const version = result.notes.version;
+  return { schema: 2, repository, tag: `v${version}`, version, build: result.notes.build ?? null, sourceCommit };
+}
+
+export async function publish(options = {}) {
+  const built = await buildPages(options);
+  const { version } = built;
+  const { resultFile } = options;
   const temporary = await mkdtemp(join(tmpdir(), 'turtle-pages-publish-'));
   try {
     const checkout = join(temporary, 'site');
@@ -68,7 +84,7 @@ export async function publish({ releaseTag, releaseBuild, expectedRepository, re
       await command('git', ['push', 'origin', 'HEAD:refs/heads/gh-pages'], checkout);
     }
     const commit = await command('git', ['rev-parse', 'HEAD'], checkout);
-    const receipt = { schema: 1, repository, tag: `v${version}`, version, build: result.notes.build ?? null, sourceCommit, pagesCommit: commit };
+    const receipt = { ...built, schema: 1, pagesCommit: commit };
     if (resultFile) {
       const target = resolve(resultFile);
       await mkdir(dirname(target), { recursive: true });

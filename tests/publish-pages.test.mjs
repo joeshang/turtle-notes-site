@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { releaseFetch, validateRequestedRelease } from '../scripts/publish-pages.mjs';
+import { releaseFetch, readGitHubApi, validateRequestedRelease } from '../scripts/publish-pages.mjs';
 
 test('local publisher reads GitHub metadata through the existing gh login', async () => {
   const calls = [];
@@ -28,4 +28,14 @@ test('release integration accepts only the requested version and both build numb
   assert.throws(() => validateRequestedRelease(result, { ...options, releaseBuild: '6' }), /differs/);
   assert.throws(() => validateRequestedRelease({ ...result, editor: { ...result.editor, build: '6' } }, options), /editor build/);
   assert.throws(() => validateRequestedRelease({ notes: { version: '1.2.0' }, editor: { version: '1.2.0' } }, options), /build differs/);
+});
+
+test('Actions token is used only for API reads and authentication errors fail closed', async () => {
+  const calls = [];
+  assert.equal(await readGitHubApi('repos/example/site/releases', 'test-token', async (url, options) => {
+    calls.push({ url, options }); return Response.json([]);
+  }), '[]');
+  assert.equal(calls[0].url, 'https://api.github.com/repos/example/site/releases');
+  assert.equal(calls[0].options.headers.Authorization, 'Bearer test-token');
+  await assert.rejects(readGitHubApi('repos/example/site/releases', 'test-token', async () => new Response('', { status: 403 })), /403/);
 });

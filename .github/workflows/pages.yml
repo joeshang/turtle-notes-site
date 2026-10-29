@@ -1,12 +1,28 @@
 name: Build and deploy GitHub Pages
+run-name: Pages ${{ inputs.request_id || github.run_id }} ${{ inputs.release_tag || 'latest' }}
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-  release:
-    types: [published]
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Expected public release tag; empty selects latest
+        type: string
+        required: false
+      release_build:
+        description: Expected build number for both products
+        type: string
+        required: false
+      source_sha:
+        description: Website source revision selected by release.sh
+        type: string
+        required: false
+      request_id:
+        description: Unique release.sh request identifier
+        type: string
+        required: false
 permissions:
   contents: read
 concurrency:
@@ -15,20 +31,30 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'release' && 'main' || github.ref }}
+          ref: ${{ inputs.source_sha || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
       - run: npm ci
-      - run: npm test
-      - name: Load the latest verified public download information
+      - name: Test pull request
+        if: github.event_name == 'pull_request'
+        run: npm test && npm run verify
+      - name: Build the verified release website
         if: github.event_name != 'pull_request'
-        run: npm run sync-release
-      - run: npm run verify
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_BUILD: ${{ inputs.release_build }}
+          RELEASE_REQUEST_ID: ${{ inputs.request_id }}
+          RELEASE_REPOSITORY: ${{ github.repository }}
+        run: npm run build:pages
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
@@ -38,7 +64,7 @@ jobs:
         with:
           path: dist
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' || github.event_name == 'release'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:
