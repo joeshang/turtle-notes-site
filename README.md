@@ -44,7 +44,9 @@ npm run publish:pages
 
 一次性设置：在 Settings → Pages 选择 **Deploy from a branch**，分支为 `gh-pages`、目录为 `/`。发布产物带 `.nojekyll`，不再进行 Jekyll 编译。原 `.github/workflows/pages.yml` 已通过仓库设置停用；文件仅作为历史参考保留。GitHub Pages 后台仍可能显示平台自带的部署任务，这是托管机制，并非自定义构建流程。
 
-修改官网代码或发布新版安装包后，均需从当前官网源码运行 `npm run publish:pages`；公开 Release 完成并不自动构建网站。
+只修改官网代码时，从当前官网源码运行 `npm run publish:pages`；Release 事件本身不触发自定义构建。
+
+App 仓库的 `release.sh` 现在可以在公开 Release 后自动调用本发布器，不需要手工切换仓库。它传入 `--release-tag`、`--release-build`、`--repository` 和 `--result-file`，要求两个产品均匹配指定版本和构建号，推送后写入协议 v1 回执（包括官网源码提交与 gh-pages 提交）。App 发布器随后等待内置 Pages 部署并核对线上内容。已有版本号较新的 Release 或构建号不匹配时，在推送前停止，避免错误部署。单独更新网站时仍使用上述本地命令。
 
 ## 正式 Release 与官网更新
 

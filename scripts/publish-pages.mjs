@@ -1,8 +1,8 @@
 import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
-import { cp, mkdtemp, readdir, rm, writeFile } from 'node:fs/promises';
+import { promisify, parseArgs } from 'node:util';
+import { cp, mkdir, mkdtemp, readdir, rename, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { repository, syncRelease } from './sync-release.mjs';
 
@@ -28,9 +28,21 @@ async function command(file, args, cwd = root) {
   return result.stdout.trim();
 }
 
-export async function publish() {
-  const result = await syncRelease(join(root, 'src/data/releases.json'), releaseFetch, join(root, 'public/updates'));
+export function validateRequestedRelease(result, { releaseTag, releaseBuild } = {}) {
   if (!result) throw new Error('No verified release available; nothing published');
+  for (const id of ['notes', 'editor']) {
+    if (releaseTag && `v${result[id]?.version}` !== releaseTag) throw new Error(`Latest verified ${id} release differs from requested ${releaseTag}; nothing published`);
+    if (releaseBuild && result[id]?.build !== releaseBuild) throw new Error(`Verified ${id} build differs from requested ${releaseBuild}; nothing published`);
+  }
+}
+
+export async function publish({ releaseTag, releaseBuild, expectedRepository, resultFile } = {}) {
+  if (expectedRepository && expectedRepository !== repository) throw new Error('Publisher repository differs from the requested target');
+  if (releaseTag && !/^v\d+\.\d+(?:\.\d+)?$/.test(releaseTag)) throw new Error('Invalid requested release tag');
+  if (releaseBuild && !/^[1-9]\d*$/.test(releaseBuild)) throw new Error('Invalid requested build number');
+  const sourceCommit = await command('git', ['rev-parse', 'HEAD']);
+  const result = await syncRelease(join(root, 'src/data/releases.json'), releaseFetch, join(root, 'public/updates'));
+  validateRequestedRelease(result, { releaseTag, releaseBuild });
   process.stdout.write(await command('npm', ['test']) + '\n');
   process.stdout.write(await command('npm', ['run', 'verify']) + '\n');
   const version = result.notes.version;
@@ -56,10 +68,25 @@ export async function publish() {
       await command('git', ['push', 'origin', 'HEAD:refs/heads/gh-pages'], checkout);
     }
     const commit = await command('git', ['rev-parse', 'HEAD'], checkout);
+    const receipt = { schema: 1, repository, tag: `v${version}`, version, build: result.notes.build ?? null, sourceCommit, pagesCommit: commit };
+    if (resultFile) {
+      const target = resolve(resultFile);
+      await mkdir(dirname(target), { recursive: true });
+      await writeFile(`${target}.tmp`, JSON.stringify(receipt, null, 2) + '\n');
+      await rename(`${target}.tmp`, target);
+    }
     console.log(`Published verified static files for ${version}: gh-pages ${commit}`);
+    return receipt;
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) await publish();
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  const { values } = parseArgs({ options: {
+    'release-tag': { type: 'string' }, 'release-build': { type: 'string' },
+    repository: { type: 'string' }, 'result-file': { type: 'string' },
+  } });
+  await publish({ releaseTag: values['release-tag'], releaseBuild: values['release-build'],
+    expectedRepository: values.repository, resultFile: values['result-file'] });
+}

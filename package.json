@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "turtleReleasePublisher": 1,
   "engines": {
     "node": ">=22.23.4"
   },
