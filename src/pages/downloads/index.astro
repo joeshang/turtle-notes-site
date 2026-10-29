@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import { products, notesIOS, iosDownloadLinks } from '../../data/site';
+import { withBase } from '../../lib/paths';
 ---
 <Layout title="下载" description="下载龙龟笔记与龙龟编辑器，查看版本信息和系统要求。">
   <header class="download-header container">
@@ -17,6 +18,7 @@ import { products, notesIOS, iosDownloadLinks } from '../../data/site';
       {product.release && <div class="download-actions">
         <a class="button button-primary" href={product.release.downloadURL} aria-label={`下载${product.chineseName} macOS 版`}><Icon name="down" size={18} />下载 macOS 版</a>
         <a class="download-checksum" href={product.release.checksumURL} aria-label={`${product.chineseName} SHA-256 校验文件`}>SHA-256 校验文件</a>
+        <a class="download-checksum" href={withBase('/changelog/')} aria-label={`${product.chineseName}更新日志`}>更新日志（CHANGELOG）</a>
       </div>}
       {product.id === 'notes' && <div class="download-ios" id="ios">
         <div class="download-card-header">

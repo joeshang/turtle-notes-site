@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Content as Changelog } from '../../CHANGELOG.md';
+import { withBase } from '../lib/paths';
+---
+<Layout title="更新日志" description="查看龙龟笔记与龙龟编辑器的当前及历史版本更新。">
+  <article class="changelog container">
+    <a class="back-link" href={withBase('/downloads/')}>返回下载页</a>
+    <Changelog />
+  </article>
+</Layout>
+<style>
+  .changelog { max-width: 760px; padding-block: 48px 70px; line-height: 1.9; overflow-wrap: anywhere; }
+  .back-link { color: var(--accent); font-size: 14px; }
+  .changelog :global(h1) { font-size: 32px; margin-block: 20px 30px; }
+  .changelog :global(h2) { font-size: 21px; margin-block: 36px 14px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .changelog :global(h3) { font-size: 16px; margin-block: 18px 8px; }
+  .changelog :global(ul) { padding-left: 24px; color: var(--muted); }
+  .changelog :global(li + li) { margin-top: 8px; }
+  .changelog :global(a) { color: var(--accent); text-underline-offset: 4px; }
+</style>

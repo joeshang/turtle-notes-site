@@ -4,7 +4,7 @@ import { resolve, join } from 'node:path';
 
 const root = resolve('dist');
 const base = '/turtle-notes-site/';
-const pages = ['index.html', 'privacy/index.html', 'support/index.html', 'downloads/index.html', '404.html'];
+const pages = ['index.html', 'privacy/index.html', 'support/index.html', 'downloads/index.html', 'changelog/index.html', '404.html'];
 let checked = 0;
 async function checkRef(ref, current) {
   ref = ref.replaceAll('&amp;', '&');
@@ -55,6 +55,11 @@ const home = await readFile(join(root, 'index.html'), 'utf8');
 assert.match(home, /龙龟载文，/);
 assert.match(home, /落笔成章/);
 const releases = JSON.parse(await readFile('src/data/releases.json', 'utf8'));
+const changelog = await readFile(join(root, 'changelog/index.html'), 'utf8');
+const downloadPage = await readFile(join(root, 'downloads/index.html'), 'utf8');
+assert(downloadPage.includes(`href="${base}changelog/"`), 'Download page must link to the changelog');
+const changelogSource = await readFile('CHANGELOG.md', 'utf8');
+for (const [, version] of changelogSource.matchAll(/^## \[([\d.]+)\]/gm)) assert(changelog.includes(version), `Missing changelog version ${version}`);
 for (const id of ['notes', 'editor']) {
   assert(home.includes(`href="${base}downloads/#${id}"`), `${id}: homepage must navigate to its section on the shared download page`);
   if (releases[id]) {
