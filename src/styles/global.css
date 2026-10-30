@@ -351,7 +351,6 @@
   .clipper-hero h1 span { color: var(--accent); }
   .clipper-description { color: var(--muted); font-size: 16px; margin-top: 20px; }
   .clipper-hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 28px; }
-  .clipper-meta { color: var(--subtle); font-size: 12px; margin-top: 17px; }
   .clipper-preview { display: block; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px var(--shadow); }
   .clipper-preview img { width: 100%; }
   .clipper-setup { padding-block: 70px; }
@@ -392,7 +391,6 @@
     .clipper-identity { margin-bottom: 24px; }
     .clipper-description { font-size: 14px; }
     .clipper-description br { display: none; }
-    .clipper-meta { font-size: 11px; }
     .clipper-preview { border-radius: 8px; }
     .clipper-setup { padding-block: 44px; }
     .clipper-section-heading h2 { font-size: 27px; }
