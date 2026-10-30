@@ -50,6 +50,7 @@ const path = Astro.url.pathname;
         </a>
         <nav aria-label="主导航">
           <a href={withBase('/#notes')}>龙龟笔记</a><a href={withBase('/#editor')}>龙龟编辑器</a>
+          <a href={withBase('/web-clipper/')} aria-current={path === withBase('/web-clipper/') ? 'page' : undefined}>龙龟剪藏</a>
           <a href={withBase('/support/')} aria-current={path === withBase('/support/') ? 'page' : undefined}>支持</a>
         </nav>
         <ThemeToggle />

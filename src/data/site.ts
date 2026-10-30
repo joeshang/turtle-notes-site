@@ -58,6 +58,13 @@ export const iosDownloadLinks = [
   { label: '通过 TestFlight 体验', url: notesIOS.testFlightURL },
 ].filter((link): link is { label: string; url: string } => link.url !== null);
 
+export const webClipper = {
+  name: '龙龟剪藏',
+  storeURL: 'https://chromewebstore.google.com/detail/eoghfopmieoalphdgicomogfmdbfocem',
+  icon: '/images/web-clipper-icon.png',
+  minimumNotesVersion: '1.2.0',
+};
+
 const macOSAvailability = products.map(product => product.release
   ? `${product.chineseName} macOS v${product.release.version} 已发布，适用于 ${product.release.architecture} Mac（macOS ${product.release.minimumMacOS} 或更新版本）`
   : `${product.chineseName} macOS 版公开下载准备中`

@@ -2,7 +2,7 @@
 
 **龙龟载文，落笔成章。**
 
-龙龟笔记与龙龟编辑器的独立 Astro 静态站点。官网源码在本仓库根目录维护；App 源码、签名、公证和内部构建记录独立管理。
+龙龟笔记与龙龟编辑器的独立 Astro 静态站点，同时介绍配套的龙龟剪藏 Chrome 扩展。官网源码在本仓库根目录维护；App 源码、签名、公证和内部构建记录独立管理。
 
 目标地址：<https://joeshang.github.io/turtle-notes-site/>。
 
@@ -19,13 +19,14 @@ npm run verify
 npm run preview
 ```
 
-本地也使用 `/turtle-notes-site/` 前缀，便于验证 Pages 的真实路径。`verify` 检查类型、静态构建、5 个页面、站内锚点、图片、脚本、CSS 资源与日夜截图，拒绝越出前缀的路径和不应进入 Pages 的安装包或内部文件。
+本地也使用 `/turtle-notes-site/` 前缀，便于验证 Pages 的真实路径。`verify` 检查类型、静态构建、7 个页面、站内锚点、图片、脚本、CSS 资源与日夜截图，拒绝越出前缀的路径和不应进入 Pages 的安装包或内部文件。
 
 ## 外观与内容
 
 - 使用与 App 品牌一致的蓝色强调色，日间为浅色画布，夜间为中性炭灰画布。默认跟随系统日夜外观；右上角按钮可切换并在浏览器本地记住选择。没有访客追踪或外部字体。
 - 两款 App 分别展示真实日间 / 夜间界面；可独立切换截图，默认跟随网站外观。图片中的内容为虚构示例。
-- 页面：主页、`downloads/`、`support/`、`privacy/`、`404.html`。
+- 页面：主页、`downloads/`、`web-clipper/`、`changelog/`、`support/`、`privacy/`、`404.html`。
+- 龙龟剪藏在首页笔记区、主导航与下载页提供入口；`web-clipper/` 展示整页与选区截图、Chrome 商店安装链接及 Mac 接收设置，扩展专用隐私说明保留在 `web-clipper/privacy/`。商店链接及 Notes 最低版本集中维护在 `src/data/site.ts`。
 - 联系邮箱、产品文案、命名由来和 iOS 入口配置：`src/data/site.ts`；macOS 发行下载信息：`src/data/releases.json`。
 - 龙龟笔记 iOS 入口位于首屏产品下载卡片和 `downloads/notes/#ios`。正式地址确认后填写 `notesIOS.appStoreURL` / `notesIOS.testFlightURL`；未配置时显示准备中，不放虚构跳转。
 - 隐私政策仍为预览稿。个人开发者真实署名、生效日期、服务处理关系与跨境安排需在正式发行前落实；代码和托管配置变更也需同步复核政策。

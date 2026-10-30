@@ -4,7 +4,7 @@ import { resolve, join } from 'node:path';
 
 const root = resolve('dist');
 const base = '/turtle-notes-site/';
-const pages = ['index.html', 'privacy/index.html', 'support/index.html', 'downloads/index.html', 'changelog/index.html', '404.html'];
+const pages = ['index.html', 'privacy/index.html', 'support/index.html', 'downloads/index.html', 'changelog/index.html', 'web-clipper/index.html', '404.html'];
 let checked = 0;
 async function checkRef(ref, current) {
   ref = ref.replaceAll('&amp;', '&');
