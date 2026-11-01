@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.4](https://github.com/joeshang/turtle-notes-site/releases/tag/v1.2.4) — 2026-11-01
+
+### 改进
+
+- 正文与标题改用系统内置的 Avenir Next，界面使用系统字体；代码保留 Roboto Mono Regular。
+- 字体设置显示实际使用的字体名称，旧字体选择自动使用新的默认值，并保留字号与段落设置。
+- 改进嵌套有序列表的编号显示。
+
 ## [1.2.3](https://github.com/joeshang/turtle-notes-site/releases/tag/v1.2.3) — 2026-10-30
 
 ### 新增

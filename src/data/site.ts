@@ -5,9 +5,9 @@ export const brand = {
   description: '龙龟载文，落笔成章。用龙龟笔记积累与连接想法，用龙龟编辑器专注独立 Markdown 文稿的写作。原生 Markdown 正文编辑与渲染，让文字各得其所。',
   supportEmail: 'shangchuanren@gmail.com',
   operatorType: '个人开发者',
-  operatorName: null as string | null,
+  operatorName: 'Chuanren Shang',
   distributionRegion: '中国大陆',
-  policyUpdated: '2026 年 10 月 26 日',
+  policyUpdated: '2026 年 11 月 1 日',
 };
 
 export type PublicRelease = {
