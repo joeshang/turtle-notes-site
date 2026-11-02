@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.5](https://github.com/joeshang/turtle-notes-site/releases/tag/v1.2.5) — 2026-11-02
+
+### 改进
+
+- 龙龟笔记默认开启龙龟剪藏接收，启动时自动完成浏览器接收程序注册，无需手动启用。
+- 移除剪藏的启用、停用入口，保留「帮助 → 安装龙龟剪藏」。
+- 移动 App 后再次启动会自动更新接收程序路径。
+
 ## [1.2.4](https://github.com/joeshang/turtle-notes-site/releases/tag/v1.2.4) — 2026-11-01
 
 ### 改进
