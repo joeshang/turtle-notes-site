@@ -50,7 +50,7 @@ export const products: Product[] = [
 // Add only verified official distribution URLs when iOS distribution is available.
 export const notesIOS = {
   minimumIOS: '18.0',
-  appStoreURL: null as string | null,
+  appStoreURL: 'https://apps.apple.com/cn/app/%E9%BE%99%E9%BE%9F%E7%AC%94%E8%AE%B0/id6826869505',
   testFlightURL: null as string | null,
 };
 export const iosDownloadLinks = [
